@@ -293,6 +293,7 @@ select:focus {
 }
 
 .calendar {
+  position: relative;
   display: grid;
   grid-template-columns: repeat(7, minmax(0, 1fr));
   gap: 6px;
@@ -609,3 +610,5 @@ select:focus {
     justify-content: flex-start;
   }
 }
+
+
