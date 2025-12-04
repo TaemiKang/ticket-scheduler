@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <title>티켓팅 일정 알리미</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+  <header>
+    <h1>티켓 오픈 일정을 한 눈에</h1>
+    <p>보고 싶은 공연 스케줄을 놓치지 마세요</p>
+  </header>
+
+  <section class="filter-section">
+    <h2>기획사별 일정 보기</h2>
+    <select id="agencyFilter" onchange="filterByAgency()">
+      <option value="all">전체</option>
+      <option value="JYP">JYP</option>
+      <option value="HYBE">HYBE</option>
+      <option value="SM">SM</option>
+      <option value="YG">YG</option>
+      <option value="ETC">기타</option>
+    </select>
+  </section>
+
+  <section class="form-section">
+    <h2>티켓팅 일정 등록하기</h2>
+
+    <label>공연명</label>
+    <input id="title" type="text" placeholder="예: 팬미팅, 콘서트 등">
+
+    <label>기획사</label>
+    <select id="agency">
+      <option value="JYP">JYP</option>
+      <option value="HYBE">HYBE</option>
+      <option value="SM">SM</option>
+      <option value="YG">YG</option>
+      <option value="ETC">기타</option>
+    </select>
+
+    <label>티켓 오픈 날짜/시간</label>
+    <input id="date" type="datetime-local">
+
+    <label>예매처 링크</label>
+    <input id="link" type="url" placeholder="https://ticketlink.co.kr">
+
+    <button onclick="addEvent()">일정 등록하기</button>
+  </section>
+
+  <section class="list-section">
+    <h2>등록된 티켓팅 일정</h2>
+    <ul id="eventList"></ul>
+  </section>
+
+  <script src="app.js"></script>
+</body>
+</html>
