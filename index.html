@@ -1,57 +1,83 @@
 <!DOCTYPE html>
 <html lang="ko">
 <head>
-  <meta charset="UTF-8">
+  <meta charset="UTF-8" />
   <title>티켓팅 일정 알리미</title>
-  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="style.css" />
 </head>
-
 <body>
-  <header>
-    <h1>티켓 오픈 일정을 한 눈에</h1>
-    <p>보고 싶은 공연 스케줄을 놓치지 마세요</p>
+  <header class="header">
+    <div class="logo">티켓알리미</div>
+    <nav class="nav">
+      <button class="nav-btn" data-view="all">전체 일정</button>
+      <button class="nav-btn" data-view="my">내 캘린더</button>
+    </nav>
   </header>
 
-  <section class="filter-section">
-    <h2>기획사별 일정 보기</h2>
-    <select id="agencyFilter" onchange="filterByAgency()">
-      <option value="all">전체</option>
-      <option value="JYP">JYP</option>
-      <option value="HYBE">HYBE</option>
-      <option value="SM">SM</option>
-      <option value="YG">YG</option>
-      <option value="ETC">기타</option>
-    </select>
-  </section>
+  <main class="container">
+    <!-- 왼쪽: 필터 -->
+    <section class="sidebar">
+      <h2>카테고리</h2>
+      <div class="chips" id="category-chips">
+        <button class="chip active" data-category="all">전체</button>
+        <button class="chip" data-category="콘서트">콘서트</button>
+        <button class="chip" data-category="뮤지컬/연극">뮤지컬/연극</button>
+        <button class="chip" data-category="스포츠">스포츠</button>
+        <button class="chip" data-category="클래식">클래식</button>
+      </div>
 
-  <section class="form-section">
-    <h2>티켓팅 일정 등록하기</h2>
+      <h2>기획사 선택</h2>
+      <select id="agency-select">
+        <option value="all">전체 기획사</option>
+      </select>
 
-    <label>공연명</label>
-    <input id="title" type="text" placeholder="예: 팬미팅, 콘서트 등">
+      <h2>아티스트</h2>
+      <select id="artist-select">
+        <option value="all">전체 아티스트</option>
+      </select>
 
-    <label>기획사</label>
-    <select id="agency">
-      <option value="JYP">JYP</option>
-      <option value="HYBE">HYBE</option>
-      <option value="SM">SM</option>
-      <option value="YG">YG</option>
-      <option value="ETC">기타</option>
-    </select>
+      <button id="reset-filters" class="reset-btn">필터 초기화</button>
 
-    <label>티켓 오픈 날짜/시간</label>
-    <input id="date" type="datetime-local">
+      <div class="notice-box">
+        <h3>알림 설정</h3>
+        <p>관심 일정을 내 캘린더에 추가하면<br/>브라우저 알림(예정)으로 알려줄 수 있어요.</p>
+        <button id="enable-noti" class="primary-btn">알림 권한 요청</button>
+      </div>
+    </section>
 
-    <label>예매처 링크</label>
-    <input id="link" type="url" placeholder="https://ticketlink.co.kr">
+    <!-- 오른쪽: 메인 영역 -->
+    <section class="main">
+      <!-- 달력 헤더 -->
+      <div class="calendar-header">
+        <div class="month-nav">
+          <button id="prev-month" class="icon-btn">◀</button>
+          <span id="current-month"></span>
+          <button id="next-month" class="icon-btn">▶</button>
+        </div>
+        <div class="legend">
+          <span class="badge upcoming">티켓팅 예정</span>
+          <span class="badge mine">내 캘린더</span>
+        </div>
+      </div>
 
-    <button onclick="addEvent()">일정 등록하기</button>
-  </section>
+      <!-- 달력 -->
+      <div class="calendar" id="calendar"></div>
 
-  <section class="list-section">
-    <h2>등록된 티켓팅 일정</h2>
-    <ul id="eventList"></ul>
-  </section>
+      <!-- 일정 리스트 -->
+      <section class="events-section">
+        <h2 id="events-title">전체 일정</h2>
+        <ul id="events-list" class="events-list"></ul>
+      </section>
+    </section>
+  </main>
+
+  <!-- 팝업: 일정 상세 -->
+  <div class="modal-backdrop" id="event-modal-backdrop">
+    <div class="modal">
+      <button class="modal-close" id="modal-close">✕</button>
+      <div id="modal-content"></div>
+    </div>
+  </div>
 
   <script src="app.js"></script>
 </body>
