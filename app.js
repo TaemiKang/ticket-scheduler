@@ -409,11 +409,6 @@ function renderCalendar() {
   const month = currentMonth.getMonth();
 
   const firstDayOfMonth = new Date(year, month, 1);
-  const lastDayOfMonth = new Date(year, month + 1, 0);
-
-  currentMonthEl.textContent = `${year}년 ${month + 1}월`;
-
-  // 달력 그리기에 필요한 시작일(해당 달의 첫째 주 일요일) 계산
   const startDate = new Date(firstDayOfMonth);
   startDate.setDate(firstDayOfMonth.getDate() - firstDayOfMonth.getDay()); // 0=일요일
 
@@ -468,6 +463,8 @@ function renderCalendar() {
     dayEl.appendChild(dotsWrap);
     calendarEl.appendChild(dayEl);
   }
+
+  currentMonthEl.textContent = `${year}년 ${month + 1}월`;
 }
 
 // === 일정 리스트 렌더링 ===
@@ -489,7 +486,7 @@ function renderEventsList() {
     const li = document.createElement("li");
     li.textContent = "조건에 맞는 티켓팅 일정이 없습니다.";
     li.style.fontSize = "12px";
-    li.style.color = "#a3a7c2";
+    li.style.color = "#a76a8a";
     li.style.padding = "12px 4px";
     eventsListEl.appendChild(li);
     return;
@@ -693,5 +690,3 @@ function init() {
 }
 
 document.addEventListener("DOMContentLoaded", init);
-
-
