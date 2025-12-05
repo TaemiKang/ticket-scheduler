@@ -358,14 +358,9 @@ select:focus {
 }
 
 /* 요일 표시 */
-.calendar::before {
-  content: "일 월 화 수 목 금 토";
-  position: absolute;
-  left: 18px;
-  transform: translateY(-17px);
-  font-size: 11px;
-  color: var(--text-muted);
-  letter-spacing: 0.22em;
+.calendar {
+  position: relative;
+  padding-top: 17px;
 }
 
 /* 이벤트 리스트 */
