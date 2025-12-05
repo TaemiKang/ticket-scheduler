@@ -592,7 +592,7 @@ let currentArtist = "all";
 let currentArtistSearch = "";
 let currentSoccerClub = "all";
 let currentBaseballClub = "all";
-let myCalendar = loadMyCalendar();
+let myCalendar = loadMyCalendar(); // 객체 형태: { eventId: { icon: "", memo: "" } }
 
 // === DOM 요소 ===
 const categoryChips = document.getElementById("category-chips");
@@ -695,14 +695,34 @@ function buildDeviceCalendarLink(ev) {
   return ev.siteUrl || "#";
 }
 
+// 예매처별 색상 반환
+function getSiteColor(site) {
+  if (!site) return "#a29bff"; // 기본 보라색
+  if (site.includes("놀티켓")) return "#9b59b6"; // 보라색
+  if (site.includes("멜론티켓") || site.includes("멜론")) return "#2ecc71"; // 초록색
+  if (site.includes("예스24") || site.includes("YES24")) return "#ffffff"; // 흰색
+  if (site.includes("티켓링크") || site.includes("ticketlink")) return "#e74c3c"; // 빨간색
+  if (site.includes("인터파크")) return "#3498db"; // 파란색 (기본)
+  return "#a29bff"; // 기본 보라색
+}
+
 // === 로컬스토리지 ===
 function loadMyCalendar() {
   try {
     const raw = localStorage.getItem("my-ticket-calendar");
-    if (!raw) return [];
-    return JSON.parse(raw);
+    if (!raw) return {};
+    const data = JSON.parse(raw);
+    // 기존 배열 형식 호환성 처리
+    if (Array.isArray(data)) {
+      const obj = {};
+      data.forEach(id => {
+        obj[id] = { icon: "", memo: "" };
+      });
+      return obj;
+    }
+    return data;
   } catch {
-    return [];
+    return {};
   }
 }
 
@@ -711,16 +731,30 @@ function saveMyCalendar() {
 }
 
 function isInMyCalendar(id) {
-  return myCalendar.includes(id);
+  return myCalendar.hasOwnProperty(id);
+}
+
+function getMyCalendarItem(id) {
+  return myCalendar[id] || { icon: "", memo: "" };
+}
+
+function addToMyCalendar(id, icon = "", memo = "") {
+  myCalendar[id] = { icon, memo };
+  saveMyCalendar();
+}
+
+function removeFromMyCalendar(id) {
+  delete myCalendar[id];
+  saveMyCalendar();
 }
 
 function toggleMyCalendar(id) {
   if (isInMyCalendar(id)) {
-    myCalendar = myCalendar.filter((x) => x !== id);
+    removeFromMyCalendar(id);
   } else {
-    myCalendar.push(id);
+    // 모달로 아이콘/메모 입력 받기
+    openAddToCalendarModal(id);
   }
-  saveMyCalendar();
 }
 
 // === 필터 처리 ===
@@ -867,13 +901,71 @@ function renderCalendar() {
     numSpan.className = "calendar-day-number";
     numSpan.textContent = cellDate.getDate();
 
-    const dotsWrap = document.createElement("div");
-    dotsWrap.className = "calendar-dots";
-
     const dateStr = formatDate(cellDate);
     const eventsOfDay = filtered.filter((ev) => formatDate(ev.openAt) === dateStr);
     const hasUpcoming = eventsOfDay.length > 0;
     const hasMine = eventsOfDay.some((ev) => isInMyCalendar(ev.id));
+
+    // 이벤트 목록 표시
+    const eventsList = document.createElement("div");
+    eventsList.className = "calendar-events";
+    eventsList.style.display = "flex";
+    eventsList.style.flexDirection = "column";
+    eventsList.style.gap = "3px";
+    eventsList.style.marginTop = "4px";
+    eventsList.style.maxHeight = "50px";
+    eventsList.style.overflowY = "auto";
+    eventsList.style.fontSize = "9px";
+
+    eventsOfDay.slice(0, 3).forEach((ev) => {
+      const eventItem = document.createElement("div");
+      eventItem.style.display = "flex";
+      eventItem.style.alignItems = "center";
+      eventItem.style.gap = "4px";
+      eventItem.style.overflow = "hidden";
+      eventItem.style.textOverflow = "ellipsis";
+      eventItem.style.whiteSpace = "nowrap";
+
+      // 예매처별 색상 점
+      const siteDot = document.createElement("span");
+      siteDot.style.width = "6px";
+      siteDot.style.height = "6px";
+      siteDot.style.borderRadius = "50%";
+      siteDot.style.flexShrink = "0";
+      siteDot.style.backgroundColor = getSiteColor(ev.site);
+      if (ev.site && (ev.site.includes("예스24") || ev.site.includes("YES24"))) {
+        siteDot.style.border = "1px solid rgba(255,255,255,0.3)";
+      }
+
+      // 제목
+      const titleSpan = document.createElement("span");
+      titleSpan.textContent = ev.title.length > 12 ? ev.title.substring(0, 12) + "..." : ev.title;
+      titleSpan.style.color = "var(--text-muted)";
+      titleSpan.style.flex = "1";
+      titleSpan.style.minWidth = "0";
+      titleSpan.style.overflow = "hidden";
+      titleSpan.style.textOverflow = "ellipsis";
+
+      eventItem.appendChild(siteDot);
+      eventItem.appendChild(titleSpan);
+      eventsList.appendChild(eventItem);
+    });
+
+    if (eventsOfDay.length > 3) {
+      const moreItem = document.createElement("div");
+      moreItem.textContent = `+${eventsOfDay.length - 3}개 더`;
+      moreItem.style.fontSize = "8px";
+      moreItem.style.color = "var(--text-muted)";
+      moreItem.style.opacity = "0.7";
+      eventsList.appendChild(moreItem);
+    }
+
+    // 기존 dots (하위 호환성)
+    const dotsWrap = document.createElement("div");
+    dotsWrap.className = "calendar-dots";
+    dotsWrap.style.display = "flex";
+    dotsWrap.style.gap = "2px";
+    dotsWrap.style.marginTop = "2px";
 
     if (hasUpcoming) {
       const dot = document.createElement("div");
@@ -888,6 +980,9 @@ function renderCalendar() {
     }
 
     dayEl.appendChild(numSpan);
+    if (eventsOfDay.length > 0) {
+      dayEl.appendChild(eventsList);
+    }
     dayEl.appendChild(dotsWrap);
 
     if (eventsOfDay.length > 0) {
@@ -933,7 +1028,9 @@ function renderEventsList() {
 
     const title = document.createElement("div");
     title.className = "event-title";
-    title.textContent = `${ev.highlight ? ev.highlight + " " : ""}${ev.title}`;
+    const myItem = isInMyCalendar(ev.id) ? getMyCalendarItem(ev.id) : null;
+    const iconText = myItem && myItem.icon ? myItem.icon + " " : "";
+    title.textContent = `${ev.highlight ? ev.highlight + " " : ""}${iconText}${ev.title}`;
 
     const meta = document.createElement("div");
     meta.className = "event-meta";
@@ -975,6 +1072,20 @@ function renderEventsList() {
     const toMyBtn = document.createElement("button");
     toMyBtn.className = "secondary-btn" + (isInMyCalendar(ev.id) ? " mine" : "");
     toMyBtn.textContent = isInMyCalendar(ev.id) ? "내 캘린더에서 제거" : "내 캘린더에 담기";
+    
+    // 내 캘린더에 있는 경우 메모 표시
+    if (isInMyCalendar(ev.id)) {
+      const myItem = getMyCalendarItem(ev.id);
+      if (myItem.memo) {
+        const memoDiv = document.createElement("div");
+        memoDiv.className = "event-memo";
+        memoDiv.textContent = `💬 ${myItem.memo}`;
+        memoDiv.style.fontSize = "10px";
+        memoDiv.style.color = "#81ecec";
+        memoDiv.style.marginTop = "4px";
+        main.appendChild(memoDiv);
+      }
+    }
 
     const linkBtn = document.createElement("button");
     linkBtn.className = "outline-btn";
@@ -994,9 +1105,13 @@ function renderEventsList() {
     // 내 캘린더 토글
     toMyBtn.addEventListener("click", (e) => {
       e.stopPropagation();
-      toggleMyCalendar(ev.id);
-      renderCalendar();
-      renderEventsList();
+      if (isInMyCalendar(ev.id)) {
+        removeFromMyCalendar(ev.id);
+        renderCalendar();
+        renderEventsList();
+      } else {
+        openAddToCalendarModal(ev.id);
+      }
     });
 
     // 사이트 이동
@@ -1011,9 +1126,13 @@ function renderEventsList() {
 
 // === 모달 ===
 function openEventModal(ev) {
+  const myItem = isInMyCalendar(ev.id) ? getMyCalendarItem(ev.id) : null;
+  const iconText = myItem && myItem.icon ? myItem.icon + " " : "";
+  
   modalContentEl.innerHTML = `
-    <h3>${ev.highlight ? ev.highlight + " " : ""}${ev.title}</h3>
+    <h3>${ev.highlight ? ev.highlight + " " : ""}${iconText}${ev.title}</h3>
     <div class="meta">${ev.agency} · ${ev.artist}</div>
+    ${myItem && myItem.memo ? `<p style="margin-top:6px; padding:8px; background:rgba(0, 206, 201, 0.1); border-radius:6px; border:1px solid rgba(0, 206, 201, 0.3);"><strong>💬 메모:</strong> ${myItem.memo}</p>` : ""}
     <p><strong>카테고리:</strong> ${ev.category}${ev.subcategory ? " / " + ev.subcategory : ""}</p>
     <p><strong>티켓 오픈:</strong> ${formatDateTime(ev.openAt)}</p>
     <p><strong>공연 일시:</strong> ${formatDateTime(ev.showAt)}</p>
@@ -1064,6 +1183,85 @@ function openDayEventsModal(events, dateLabel) {
 
 function closeEventModal() {
   modalBackdrop.classList.remove("show");
+}
+
+// 내 캘린더에 추가 모달
+function openAddToCalendarModal(eventId) {
+  const ev = eventsData.find(e => e.id === eventId);
+  if (!ev) return;
+  
+  const myItem = isInMyCalendar(eventId) ? getMyCalendarItem(eventId) : { icon: "", memo: "" };
+  
+  modalContentEl.innerHTML = `
+    <h3>내 캘린더에 추가</h3>
+    <div class="meta" style="margin-bottom:12px;">${ev.title}</div>
+    
+    <div style="margin-bottom:12px;">
+      <label style="display:block; font-size:12px; margin-bottom:6px; color:var(--text-muted);">중요 표시 (이모지)</label>
+      <div style="display:flex; gap:8px; margin-bottom:8px; flex-wrap:wrap;">
+        <button class="icon-select-btn" data-icon="⭐" style="padding:6px 10px; border:1px solid var(--border); background:rgba(8, 9, 24, 0.95); border-radius:6px; cursor:pointer; font-size:16px; transition:all 0.2s;">⭐</button>
+        <button class="icon-select-btn" data-icon="❤️" style="padding:6px 10px; border:1px solid var(--border); background:rgba(8, 9, 24, 0.95); border-radius:6px; cursor:pointer; font-size:16px; transition:all 0.2s;">❤️</button>
+        <button class="icon-select-btn" data-icon="🔥" style="padding:6px 10px; border:1px solid var(--border); background:rgba(8, 9, 24, 0.95); border-radius:6px; cursor:pointer; font-size:16px; transition:all 0.2s;">🔥</button>
+        <button class="icon-select-btn" data-icon="✨" style="padding:6px 10px; border:1px solid var(--border); background:rgba(8, 9, 24, 0.95); border-radius:6px; cursor:pointer; font-size:16px; transition:all 0.2s;">✨</button>
+        <button class="icon-select-btn" data-icon="🎯" style="padding:6px 10px; border:1px solid var(--border); background:rgba(8, 9, 24, 0.95); border-radius:6px; cursor:pointer; font-size:16px; transition:all 0.2s;">🎯</button>
+        <button class="icon-select-btn" data-icon="" style="padding:6px 10px; border:1px solid var(--border); background:rgba(8, 9, 24, 0.95); border-radius:6px; cursor:pointer; font-size:12px; transition:all 0.2s;">없음</button>
+      </div>
+      <input type="text" id="custom-icon-input" placeholder="직접 입력 (이모지)" value="${myItem.icon}" style="width:100%; padding:6px 8px; border-radius:6px; border:1px solid var(--border); background:rgba(8, 9, 24, 0.95); color:var(--text); font-size:12px; outline:none;" />
+    </div>
+    
+    <div style="margin-bottom:16px;">
+      <label style="display:block; font-size:12px; margin-bottom:6px; color:var(--text-muted);">메모</label>
+      <textarea id="memo-input" placeholder="메모를 입력하세요..." style="width:100%; padding:8px; border-radius:6px; border:1px solid var(--border); background:rgba(8, 9, 24, 0.95); color:var(--text); font-size:12px; outline:none; resize:vertical; min-height:60px; font-family:inherit;">${myItem.memo}</textarea>
+    </div>
+    
+    <div style="display:flex; gap:8px; justify-content:flex-end;">
+      <button id="cancel-add-calendar" class="outline-btn" style="padding:8px 14px;">취소</button>
+      <button id="confirm-add-calendar" class="primary-btn" style="padding:8px 14px;">추가</button>
+    </div>
+  `;
+  
+  modalBackdrop.classList.add("show");
+  
+  let selectedIcon = myItem.icon;
+  const iconInput = document.getElementById("custom-icon-input");
+  
+  // 아이콘 선택 버튼 이벤트
+  document.querySelectorAll(".icon-select-btn").forEach(btn => {
+    btn.addEventListener("click", () => {
+      document.querySelectorAll(".icon-select-btn").forEach(b => {
+        b.style.borderColor = "var(--border)";
+        b.style.background = "rgba(8, 9, 24, 0.95)";
+      });
+      btn.style.borderColor = "var(--accent-strong)";
+      btn.style.background = "var(--accent-soft)";
+      selectedIcon = btn.dataset.icon || "";
+      iconInput.value = selectedIcon;
+    });
+    
+    if ((btn.dataset.icon || "") === myItem.icon) {
+      btn.style.borderColor = "var(--accent-strong)";
+      btn.style.background = "var(--accent-soft)";
+    }
+  });
+  
+  // 커스텀 아이콘 입력
+  iconInput.addEventListener("input", (e) => {
+    selectedIcon = e.target.value;
+  });
+  
+  // 확인 버튼
+  document.getElementById("confirm-add-calendar").addEventListener("click", () => {
+    const memo = document.getElementById("memo-input").value.trim();
+    addToMyCalendar(eventId, selectedIcon, memo);
+    closeEventModal();
+    renderCalendar();
+    renderEventsList();
+  });
+  
+  // 취소 버튼
+  document.getElementById("cancel-add-calendar").addEventListener("click", () => {
+    closeEventModal();
+  });
 }
 
 // === 알림 (기본 구조만, 실제 푸시는 추가 구현 필요) ===
