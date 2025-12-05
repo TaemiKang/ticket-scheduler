@@ -7,17 +7,17 @@
 }
 
 :root {
-  --bg: #060714;
-  --bg-elevated: #101224;
-  --bg-soft: #181b34;
-  --accent: #6c5ce7;
-  --accent-soft: rgba(108, 92, 231, 0.18);
-  --accent-strong: #a29bff;
-  --text: #f5f6ff;
-  --text-muted: #a3a7c2;
-  --border: #26294a;
-  --danger: #ff7675;
-  --mine: #00cec9;
+  --bg: #fff7fb;
+  --bg-elevated: #ffeef7;
+  --bg-soft: #ffe0f0;
+  --accent: #ff80b5;
+  --accent-soft: rgba(255, 128, 181, 0.18);
+  --accent-strong: #ff4f9a;
+  --text: #4a243b;
+  --text-muted: #a76a8a;
+  --border: #f5cadd;
+  --danger: #ff6b81;
+  --mine: #6bc8ff;
   --radius-lg: 18px;
   --radius-md: 12px;
   --radius-sm: 8px;
@@ -30,7 +30,7 @@
 
 body {
   font-family: var(--font-main);
-  background: radial-gradient(circle at top left, #2c2f7a 0, #060714 40%, #000 100%);
+  background: radial-gradient(circle at top left, #ffe4f2 0, #ffd9ec 40%, #ffeef7 100%);
   color: var(--text);
   min-height: 100vh;
 }
@@ -42,8 +42,8 @@ body {
   align-items: center;
   padding: 18px 34px;
   backdrop-filter: blur(20px);
-  background: linear-gradient(to bottom, rgba(6, 7, 20, 0.96), rgba(6, 7, 20, 0.82));
-  border-bottom: 1px solid rgba(255, 255, 255, 0.03);
+  background: linear-gradient(to bottom, rgba(255, 247, 251, 0.96), rgba(255, 218, 234, 0.92));
+  border-bottom: 1px solid rgba(255, 158, 196, 0.25);
   position: sticky;
   top: 0;
   z-index: 20;
@@ -54,7 +54,7 @@ body {
   font-size: 20px;
   letter-spacing: 0.04em;
   text-transform: uppercase;
-  background: linear-gradient(120deg, #a29bff, #74b9ff, #ffeaa7);
+  background: linear-gradient(120deg, #ff8fb7, #ffc3e0, #fff0b3);
   -webkit-background-clip: text;
   color: transparent;
 }
@@ -76,8 +76,8 @@ body {
 }
 
 .nav-btn:hover {
-  color: var(--text);
-  background: rgba(255, 255, 255, 0.05);
+  color: var(--accent-strong);
+  background: rgba(255, 192, 218, 0.35);
 }
 
 .nav-btn.active {
@@ -95,7 +95,7 @@ body {
 
 /* 사이드바 */
 .sidebar {
-  background: rgba(9, 11, 30, 0.98);
+  background: rgba(255, 246, 251, 0.98);
   border-radius: var(--radius-lg);
   padding: 18px 16px 20px;
   border: 1px solid var(--border);
@@ -122,15 +122,15 @@ body {
   border: 1px solid var(--border);
   padding: 6px 12px;
   font-size: 12px;
-  background: rgba(9, 11, 30, 0.8);
+  background: #ffeafa;
   color: var(--text-muted);
   cursor: pointer;
   transition: background var(--transition-fast), border-color var(--transition-fast), color var(--transition-fast), transform 0.08s;
 }
 
 .chip:hover {
-  background: var(--bg-soft);
-  border-color: rgba(255, 255, 255, 0.08);
+  background: #ffd6ee;
+  border-color: rgba(255, 143, 183, 0.55);
 }
 
 .chip.active {
@@ -144,7 +144,7 @@ select {
   padding: 8px 10px;
   border-radius: var(--radius-md);
   border: 1px solid var(--border);
-  background: rgba(8, 9, 24, 0.98);
+  background: #fff9fd;
   color: var(--text);
   font-size: 13px;
   outline: none;
@@ -153,8 +153,8 @@ select {
 
 select:focus {
   border-color: var(--accent-strong);
-  box-shadow: 0 0 0 1px rgba(162, 155, 255, 0.45);
-  background: #090b20;
+  box-shadow: 0 0 0 1px rgba(255, 143, 183, 0.6);
+  background: #ffeef7;
 }
 
 .reset-btn {
@@ -171,17 +171,17 @@ select:focus {
 }
 
 .reset-btn:hover {
-  border-color: rgba(255, 255, 255, 0.4);
+  border-color: rgba(255, 158, 196, 0.9);
   color: var(--text);
-  background: rgba(255, 255, 255, 0.03);
+  background: rgba(255, 223, 239, 0.8);
 }
 
 .notice-box {
   margin-top: 8px;
   padding: 10px 12px;
   border-radius: var(--radius-md);
-  background: radial-gradient(circle at top left, rgba(108, 92, 231, 0.22), rgba(9, 11, 30, 0.96));
-  border: 1px solid rgba(162, 155, 255, 0.45);
+  background: radial-gradient(circle at top left, rgba(255, 150, 200, 0.28), rgba(255, 239, 246, 0.96));
+  border: 1px solid rgba(255, 143, 183, 0.75);
   font-size: 12px;
   color: var(--text-muted);
 }
@@ -198,12 +198,12 @@ select:focus {
   padding: 8px 10px;
   border: none;
   border-radius: var(--radius-md);
-  background: linear-gradient(135deg, #6c5ce7, #74b9ff);
+  background: linear-gradient(135deg, #ff8fb7, #ffc3e0);
   color: #fff;
   font-size: 13px;
   cursor: pointer;
   transition: transform 0.08s ease-out, box-shadow var(--transition-fast), filter var(--transition-fast);
-  box-shadow: 0 14px 30px rgba(116, 185, 255, 0.35);
+  box-shadow: 0 14px 30px rgba(255, 143, 183, 0.35);
 }
 
 .primary-btn:hover {
@@ -212,12 +212,12 @@ select:focus {
 
 .primary-btn:active {
   transform: translateY(1px) scale(0.99);
-  box-shadow: 0 8px 20px rgba(116, 185, 255, 0.4);
+  box-shadow: 0 8px 20px rgba(255, 143, 183, 0.45);
 }
 
 /* 메인 */
 .main {
-  background: rgba(10, 12, 30, 0.98);
+  background: rgba(255, 248, 252, 0.98);
   border-radius: var(--radius-lg);
   padding: 16px 18px 20px;
   border: 1px solid var(--border);
@@ -251,7 +251,7 @@ select:focus {
   height: 30px;
   border-radius: 999px;
   border: 1px solid var(--border);
-  background: rgba(12, 13, 38, 0.95);
+  background: #ffeef7;
   color: var(--text-muted);
   cursor: pointer;
   display: inline-flex;
@@ -281,18 +281,19 @@ select:focus {
 }
 
 .badge.upcoming {
-  border-color: rgba(162, 155, 255, 0.7);
+  border-color: rgba(255, 143, 183, 0.7);
   color: var(--accent-strong);
-  background: rgba(108, 92, 231, 0.18);
+  background: rgba(255, 143, 183, 0.18);
 }
 
 .badge.mine {
-  border-color: rgba(0, 206, 201, 0.7);
-  color: #81ecec;
-  background: rgba(0, 206, 201, 0.16);
+  border-color: rgba(107, 200, 255, 0.7);
+  color: #3c9fdc;
+  background: rgba(193, 229, 255, 0.4);
 }
 
 .calendar {
+  position: relative;
   display: grid;
   grid-template-columns: repeat(7, minmax(0, 1fr));
   gap: 6px;
@@ -304,8 +305,8 @@ select:focus {
   min-height: 74px;
   padding: 6px 6px 4px;
   border-radius: 14px;
-  background: radial-gradient(circle at top, rgba(255, 255, 255, 0.03), rgba(10, 11, 30, 0.98));
-  border: 1px solid rgba(32, 35, 70, 0.9);
+  background: radial-gradient(circle at top, rgba(255, 255, 255, 0.8), rgba(255, 236, 246, 0.98));
+  border: 1px solid rgba(255, 197, 221, 0.9);
   font-size: 11px;
   color: var(--text-muted);
   cursor: default;
@@ -318,7 +319,7 @@ select:focus {
 
 .calendar-day.today {
   border-color: var(--accent-strong);
-  box-shadow: 0 0 0 1px rgba(162, 155, 255, 0.6), 0 18px 40px rgba(108, 92, 231, 0.45);
+  box-shadow: 0 0 0 1px rgba(255, 143, 183, 0.7), 0 18px 40px rgba(255, 173, 206, 0.6);
 }
 
 .calendar-day.inactive {
@@ -344,11 +345,11 @@ select:focus {
 }
 
 .dot.upcoming {
-  background: #a29bff;
+  background: #ff8fb7;
 }
 
 .dot.mine {
-  background: #00cec9;
+  background: #6bc8ff;
 }
 
 /* 요일 표시 */
@@ -389,8 +390,8 @@ select:focus {
   align-items: center;
   padding: 10px 12px;
   border-radius: var(--radius-md);
-  background: rgba(11, 14, 36, 0.98);
-  border: 1px solid rgba(37, 40, 76, 0.95);
+  background: rgba(255, 248, 252, 0.98);
+  border: 1px solid rgba(255, 197, 221, 0.95);
   font-size: 12px;
   transition: transform 0.08s ease-out, box-shadow var(--transition-fast), border-color var(--transition-fast), background var(--transition-fast);
   cursor: pointer;
@@ -398,9 +399,9 @@ select:focus {
 
 .event-card:hover {
   transform: translateY(-1px);
-  box-shadow: 0 12px 28px rgba(0, 0, 0, 0.6);
-  border-color: rgba(162, 155, 255, 0.7);
-  background: radial-gradient(circle at right top, rgba(108, 92, 231, 0.18), rgba(11, 14, 36, 0.98));
+  box-shadow: 0 12px 28px rgba(255, 164, 203, 0.55);
+  border-color: rgba(255, 143, 183, 0.85);
+  background: radial-gradient(circle at right top, rgba(255, 192, 218, 0.55), rgba(255, 248, 252, 0.98));
 }
 
 .event-main {
@@ -434,13 +435,13 @@ select:focus {
 }
 
 .tag.category {
-  border-color: rgba(162, 155, 255, 0.7);
+  border-color: rgba(255, 143, 183, 0.7);
   color: var(--accent-strong);
 }
 
 .tag.site {
-  border-color: rgba(116, 185, 255, 0.7);
-  color: #74b9ff;
+  border-color: rgba(107, 200, 255, 0.7);
+  color: #3c9fdc;
 }
 
 .event-time {
@@ -461,22 +462,22 @@ select:focus {
   font-size: 11px;
   cursor: pointer;
   border: 1px solid var(--border);
-  background: rgba(8, 9, 26, 0.95);
+  background: #fff9fd;
   color: var(--text-muted);
   transition: background var(--transition-fast), border-color var(--transition-fast), color var(--transition-fast), transform 0.08s;
 }
 
 .secondary-btn:hover,
 .outline-btn:hover {
-  background: rgba(24, 27, 64, 0.95);
+  background: #ffe1f0;
   color: var(--text);
-  border-color: rgba(255, 255, 255, 0.24);
+  border-color: rgba(255, 158, 196, 0.9);
 }
 
 .secondary-btn.mine {
-  border-color: rgba(0, 206, 201, 0.6);
-  color: #81ecec;
-  background: rgba(0, 206, 201, 0.13);
+  border-color: rgba(107, 200, 255, 0.8);
+  color: #3c9fdc;
+  background: rgba(193, 229, 255, 0.5);
 }
 
 /* 모달 */
@@ -498,8 +499,8 @@ select:focus {
 .modal {
   width: min(440px, 90vw);
   border-radius: 20px;
-  background: radial-gradient(circle at top, rgba(108, 92, 231, 0.18), rgba(10, 11, 30, 0.98));
-  border: 1px solid rgba(162, 155, 255, 0.8);
+  background: radial-gradient(circle at top, rgba(255, 192, 218, 0.45), rgba(255, 244, 250, 0.98));
+  border: 1px solid rgba(255, 143, 183, 0.9);
   padding: 18px 18px 16px;
   box-shadow: 0 20px 55px rgba(0, 0, 0, 0.75);
   position: relative;
@@ -538,7 +539,7 @@ select:focus {
   align-items: center;
   gap: 4px;
   font-size: 12px;
-  color: #74b9ff;
+  color: #3c9fdc;
   text-decoration: none;
 }
 
@@ -609,3 +610,5 @@ select:focus {
     justify-content: flex-start;
   }
 }
+
+
