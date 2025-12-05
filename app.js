@@ -611,6 +611,7 @@ let myCalendar = loadMyCalendar(); // 객체 형태: { eventId: { icon: "", memo
 // === DOM 요소 ===
 const categoryChips = document.getElementById("category-chips");
 const subcategoryChips = document.getElementById("subcategory-chips");
+const subcategoryWrap = document.getElementById("subcategory-wrap");
 const agencySelect = document.getElementById("agency-select");
 const agencyWrap = document.getElementById("agency-wrap");
 const sportsWrap = document.getElementById("sports-wrap");
@@ -882,11 +883,12 @@ function updateFilterVisibility() {
   soccerSelect.style.display = currentCategory === "스포츠" && currentSubcategory === "축구" ? "block" : "none";
   baseballSelect.style.display = currentCategory === "스포츠" && currentSubcategory === "야구" ? "block" : "none";
   
-  // WEEKLY RANKING 카테고리 선택 시 랭킹 리스트 표시, 캘린더 숨김
+  // WEEKLY RANKING 카테고리 선택 시 랭킹 리스트 표시, 캘린더 숨김, 세부 카테고리 숨김
   const isRanking = currentCategory === "WEEKLY RANKING";
   rankingSection.style.display = isRanking ? "block" : "none";
   calendarHeader.style.display = isRanking ? "none" : "flex";
   calendarEl.style.display = isRanking ? "none" : "grid";
+  subcategoryWrap.style.display = isRanking ? "none" : "block";
   
   if (isRanking) {
     renderRankingList();
