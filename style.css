@@ -302,7 +302,7 @@ select:focus {
 
 .calendar-day {
   position: relative;
-  min-height: 74px;
+  min-height: 90px;
   padding: 6px 6px 4px;
   border-radius: 14px;
   background: radial-gradient(circle at top, rgba(255, 255, 255, 0.03), rgba(10, 11, 30, 0.98));
@@ -315,6 +315,11 @@ select:focus {
   gap: 4px;
   box-shadow: var(--shadow-subtle);
   overflow: hidden;
+}
+
+.calendar-events {
+  flex: 1;
+  min-height: 0;
 }
 
 .calendar-day.today {
