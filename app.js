@@ -3,7 +3,21 @@ const eventsData = [
   // 콘서트 - WEEKLY RANKING
   {
     id: "c-rank-1",
-    title: "WEEKLY RANKING #1 - 데이식스(DAY6)",
+    title: "WEEKLY RANKING #1 - 임영웅",
+    category: "콘서트",
+    subcategory: "WEEKLY RANKING",
+    agency: "물고기뮤직",
+    artist: "임영웅",
+    site: "인터파크 티켓",
+    siteUrl: "https://tickets.interpark.com/goods/25017491",
+    openAt: "2025-12-10T20:00:00",
+    showAt: "2026-01-30T18:00:00",
+    note: "인기순위 1위",
+    highlight: "⭐",
+  },
+  {
+    id: "c-rank-2",
+    title: "WEEKLY RANKING #2 - 데이식스(DAY6)",
     category: "콘서트",
     subcategory: "WEEKLY RANKING",
     agency: "JYP",
@@ -12,12 +26,12 @@ const eventsData = [
     siteUrl: "https://ticket.yes24.com/Special/55971",
     openAt: "2025-12-05T20:00:00",
     showAt: "2026-01-15T18:00:00",
-    note: "인기순위 1위",
+    note: "인기순위 2위",
     highlight: "⭐",
   },
   {
-    id: "c-rank-2",
-    title: "WEEKLY RANKING #2 - 엑소(EXO)",
+    id: "c-rank-3",
+    title: "WEEKLY RANKING #3 - 엑소(EXO)",
     category: "콘서트",
     subcategory: "WEEKLY RANKING",
     agency: "SM",
@@ -26,12 +40,12 @@ const eventsData = [
     siteUrl: "https://ticket.melon.com/performance/index.htm?prodId=212218",
     openAt: "2025-12-06T20:00:00",
     showAt: "2026-02-20T18:00:00",
-    note: "인기순위 2위",
+    note: "인기순위 3위",
     highlight: "⭐",
   },
   {
-    id: "c-rank-3",
-    title: "WEEKLY RANKING #3 - 세븐틴 SEVENTEEN",
+    id: "c-rank-4",
+    title: "WEEKLY RANKING #4 - 세븐틴 SEVENTEEN",
     category: "콘서트",
     subcategory: "WEEKLY RANKING",
     agency: "HYBE",
@@ -40,7 +54,7 @@ const eventsData = [
     siteUrl: "https://tickets.interpark.com/goods/25010508",
     openAt: "2025-12-07T20:00:00",
     showAt: "2026-02-25T18:00:00",
-    note: "인기순위 3위",
+    note: "인기순위 4위",
     highlight: "⭐",
   },
 
@@ -1119,47 +1133,12 @@ function renderRankingList() {
     eventInfo.appendChild(meta);
     eventInfo.appendChild(tags);
 
-    // 액션 버튼
-    const actions = document.createElement("div");
-    actions.style.cssText = "display: flex; flex-direction: column; gap: 6px;";
-
-    const toMyBtn = document.createElement("button");
-    toMyBtn.className = "secondary-btn" + (isInMyCalendar(ev.id) ? " mine" : "");
-    toMyBtn.textContent = isInMyCalendar(ev.id) ? "내 캘린더에서 제거" : "내 캘린더에 담기";
-    toMyBtn.style.cssText = "padding: 8px 12px; font-size: 12px;";
-
-    const linkBtn = document.createElement("button");
-    linkBtn.className = "outline-btn";
-    linkBtn.textContent = "티켓팅 페이지";
-    linkBtn.style.cssText = "padding: 8px 12px; font-size: 12px;";
-
-    actions.appendChild(toMyBtn);
-    actions.appendChild(linkBtn);
-
     rankCard.appendChild(rankBadge);
     rankCard.appendChild(eventInfo);
-    rankCard.appendChild(actions);
 
-    // 클릭 이벤트
-    rankCard.addEventListener("click", (e) => {
-      if (e.target !== toMyBtn && e.target !== linkBtn) {
-        openEventModal(ev);
-      }
-    });
-
-    toMyBtn.addEventListener("click", (e) => {
-      e.stopPropagation();
-      if (isInMyCalendar(ev.id)) {
-        removeFromMyCalendar(ev.id);
-        renderRankingList();
-      } else {
-        openAddToCalendarModal(ev.id);
-      }
-    });
-
-    linkBtn.addEventListener("click", (e) => {
-      e.stopPropagation();
-      window.open(ev.siteUrl, "_blank");
+    // 카드 전체 클릭 시 이벤트 모달 열기
+    rankCard.addEventListener("click", () => {
+      openEventModal(ev);
     });
 
     rankingListEl.appendChild(rankCard);
@@ -1314,12 +1293,37 @@ function openEventModal(ev) {
         ? `<p style="margin-top:4px;"><strong>비고:</strong> ${ev.note}</p>`
         : ""
     }
-    <div style="margin-top:10px; display:flex; gap:8px; flex-wrap:wrap;">
-      <a class="link" href="${ev.siteUrl}" target="_blank" rel="noopener noreferrer">예매 페이지 열기 ↗</a>
-      <a class="link" href="${buildGoogleCalendarLink(ev)}" target="_blank" rel="noopener noreferrer">🗓 Google 캘린더(모의)</a>
-      <a class="link" href="${buildDeviceCalendarLink(ev)}" target="_blank" rel="noopener noreferrer">📱 휴대폰 캘린더(모의)</a>
+    <div style="margin-top:16px; padding-top:16px; border-top:1px solid rgba(255,255,255,0.1);">
+      <button id="modal-add-calendar" class="${isInMyCalendar(ev.id) ? 'secondary-btn mine' : 'primary-btn'}" style="width:100%; padding:10px; margin-bottom:8px;">
+        ${isInMyCalendar(ev.id) ? '내 캘린더에서 제거' : '내 캘린더에 담기'}
+      </button>
+      <div style="display:flex; gap:8px; flex-wrap:wrap;">
+        <a class="link" href="${ev.siteUrl}" target="_blank" rel="noopener noreferrer">예매 페이지 열기 ↗</a>
+        <a class="link" href="${buildGoogleCalendarLink(ev)}" target="_blank" rel="noopener noreferrer">🗓 Google 캘린더(모의)</a>
+        <a class="link" href="${buildDeviceCalendarLink(ev)}" target="_blank" rel="noopener noreferrer">📱 휴대폰 캘린더(모의)</a>
+      </div>
     </div>
   `;
+  
+  // 내 캘린더 추가/제거 버튼 이벤트
+  const addCalendarBtn = document.getElementById("modal-add-calendar");
+  if (addCalendarBtn) {
+    addCalendarBtn.addEventListener("click", () => {
+      if (isInMyCalendar(ev.id)) {
+        removeFromMyCalendar(ev.id);
+        closeEventModal();
+        renderCalendar();
+        renderEventsList();
+        if (currentSubcategory === "WEEKLY RANKING") {
+          renderRankingList();
+        }
+      } else {
+        closeEventModal();
+        openAddToCalendarModal(ev.id);
+      }
+    });
+  }
+  
   modalBackdrop.classList.add("show");
 }
 
