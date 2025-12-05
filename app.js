@@ -614,6 +614,9 @@ const prevMonthBtn = document.getElementById("prev-month");
 const nextMonthBtn = document.getElementById("next-month");
 const eventsTitleEl = document.getElementById("events-title");
 const eventsListEl = document.getElementById("events-list");
+const rankingSection = document.getElementById("ranking-section");
+const rankingListEl = document.getElementById("ranking-list");
+const calendarHeader = document.getElementById("calendar-header");
 
 const modalBackdrop = document.getElementById("event-modal-backdrop");
 const modalCloseBtn = document.getElementById("modal-close");
@@ -863,6 +866,16 @@ function updateFilterVisibility() {
   sportsWrap.style.display = currentCategory === "스포츠" ? "block" : "none";
   soccerSelect.style.display = currentCategory === "스포츠" && currentSubcategory === "축구" ? "block" : "none";
   baseballSelect.style.display = currentCategory === "스포츠" && currentSubcategory === "야구" ? "block" : "none";
+  
+  // WEEKLY RANKING 선택 시 랭킹 리스트 표시, 캘린더 숨김
+  const isRanking = currentSubcategory === "WEEKLY RANKING";
+  rankingSection.style.display = isRanking ? "block" : "none";
+  calendarHeader.style.display = isRanking ? "none" : "flex";
+  calendarEl.style.display = isRanking ? "none" : "grid";
+  
+  if (isRanking) {
+    renderRankingList();
+  }
 }
 
 // === 캘린더 렌더링 ===
@@ -1027,6 +1040,130 @@ function renderCalendar() {
 
     calendarEl.appendChild(dayEl);
   }
+}
+
+// === 랭킹 리스트 렌더링 ===
+function renderRankingList() {
+  rankingListEl.innerHTML = "";
+
+  const rankingEvents = eventsData
+    .filter(ev => ev.subcategory === "WEEKLY RANKING")
+    .sort((a, b) => {
+      // 제목에서 순위 추출 (#1, #2, #3)
+      const rankA = parseInt(a.title.match(/#(\d+)/)?.[1] || 999);
+      const rankB = parseInt(b.title.match(/#(\d+)/)?.[1] || 999);
+      return rankA - rankB;
+    });
+
+  if (rankingEvents.length === 0) {
+    rankingListEl.innerHTML = '<div style="padding:20px; text-align:center; color:var(--text-muted);">랭킹 데이터가 없습니다.</div>';
+    return;
+  }
+
+  rankingEvents.forEach((ev, index) => {
+    const rankCard = document.createElement("div");
+    rankCard.className = "ranking-card";
+    rankCard.style.cssText = `
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      padding: 16px;
+      margin-bottom: 12px;
+      border-radius: var(--radius-md);
+      background: rgba(11, 14, 36, 0.98);
+      border: 1px solid rgba(37, 40, 76, 0.95);
+      transition: transform 0.08s ease-out, box-shadow var(--transition-fast), border-color var(--transition-fast);
+      cursor: pointer;
+    `;
+
+    // 순위 배지
+    const rankBadge = document.createElement("div");
+    rankBadge.style.cssText = `
+      width: 50px;
+      height: 50px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 20px;
+      font-weight: 800;
+      flex-shrink: 0;
+      background: ${index === 0 ? 'linear-gradient(135deg, #ffd700, #ffed4e)' : index === 1 ? 'linear-gradient(135deg, #c0c0c0, #e8e8e8)' : index === 2 ? 'linear-gradient(135deg, #cd7f32, #e6a857)' : 'rgba(108, 92, 231, 0.18)'};
+      color: ${index < 3 ? '#000' : 'var(--accent-strong)'};
+      border: ${index < 3 ? 'none' : '1px solid rgba(162, 155, 255, 0.7)'};
+    `;
+    rankBadge.textContent = index + 1;
+
+    // 이벤트 정보
+    const eventInfo = document.createElement("div");
+    eventInfo.style.flex = "1";
+    eventInfo.style.minWidth = "0";
+
+    const title = document.createElement("div");
+    title.style.cssText = "font-size: 16px; font-weight: 600; margin-bottom: 4px;";
+    title.textContent = ev.title.replace("WEEKLY RANKING #" + (index + 1) + " - ", "");
+
+    const meta = document.createElement("div");
+    meta.style.cssText = "font-size: 12px; color: var(--text-muted); margin-bottom: 6px;";
+    meta.textContent = `${ev.agency} · ${ev.artist}`;
+
+    const tags = document.createElement("div");
+    tags.style.cssText = "display: flex; gap: 6px; flex-wrap: wrap;";
+    
+    const siteTag = document.createElement("span");
+    siteTag.className = "tag site";
+    siteTag.textContent = ev.site;
+    tags.appendChild(siteTag);
+
+    eventInfo.appendChild(title);
+    eventInfo.appendChild(meta);
+    eventInfo.appendChild(tags);
+
+    // 액션 버튼
+    const actions = document.createElement("div");
+    actions.style.cssText = "display: flex; flex-direction: column; gap: 6px;";
+
+    const toMyBtn = document.createElement("button");
+    toMyBtn.className = "secondary-btn" + (isInMyCalendar(ev.id) ? " mine" : "");
+    toMyBtn.textContent = isInMyCalendar(ev.id) ? "내 캘린더에서 제거" : "내 캘린더에 담기";
+    toMyBtn.style.cssText = "padding: 8px 12px; font-size: 12px;";
+
+    const linkBtn = document.createElement("button");
+    linkBtn.className = "outline-btn";
+    linkBtn.textContent = "티켓팅 페이지";
+    linkBtn.style.cssText = "padding: 8px 12px; font-size: 12px;";
+
+    actions.appendChild(toMyBtn);
+    actions.appendChild(linkBtn);
+
+    rankCard.appendChild(rankBadge);
+    rankCard.appendChild(eventInfo);
+    rankCard.appendChild(actions);
+
+    // 클릭 이벤트
+    rankCard.addEventListener("click", (e) => {
+      if (e.target !== toMyBtn && e.target !== linkBtn) {
+        openEventModal(ev);
+      }
+    });
+
+    toMyBtn.addEventListener("click", (e) => {
+      e.stopPropagation();
+      if (isInMyCalendar(ev.id)) {
+        removeFromMyCalendar(ev.id);
+        renderRankingList();
+      } else {
+        openAddToCalendarModal(ev.id);
+      }
+    });
+
+    linkBtn.addEventListener("click", (e) => {
+      e.stopPropagation();
+      window.open(ev.siteUrl, "_blank");
+    });
+
+    rankingListEl.appendChild(rankCard);
+  });
 }
 
 // === 일정 리스트 렌더링 ===
@@ -1330,6 +1467,11 @@ function openAddToCalendarModal(eventId) {
     closeEventModal();
     renderCalendar();
     renderEventsList();
+    
+    // WEEKLY RANKING이 선택되어 있으면 랭킹 리스트도 다시 렌더링
+    if (currentSubcategory === "WEEKLY RANKING") {
+      renderRankingList();
+    }
     
     // 캘린더 팝업이 열려있었다면 다시 열기
     const ev = eventsData.find(e => e.id === eventId);
