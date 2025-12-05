@@ -558,11 +558,20 @@ function formatDateTime(iso) {
   return `${d.getFullYear()}.${month}.${date} (${weekday}) ${hour}:${min}`;
 }
 
-function formatDate(iso) {
-  const d = new Date(iso);
+function formatDate(dateOrIso) {
+  const d = dateOrIso instanceof Date ? dateOrIso : new Date(dateOrIso);
   return `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, "0")}-${String(
     d.getDate()
   ).padStart(2, "0")}`;
+}
+
+function formatDateLabel(dateOrIso) {
+  const d = dateOrIso instanceof Date ? dateOrIso : new Date(dateOrIso);
+  const year = d.getFullYear();
+  const month = d.getMonth() + 1;
+  const date = d.getDate();
+  const weekday = "일월화수목금토"[d.getDay()];
+  return `${year}년 ${month}월 ${date}일 (${weekday})`;
 }
 
 function isSameDay(a, b) {
@@ -659,7 +668,7 @@ function buildFilterOptions() {
   // 기획사 (콘서트용)
   const agencies = new Set();
   eventsData.forEach((ev) => {
-    if (ev.category === "콘서트") agencies.add(ev.agency);
+    if (ev.category === "콘서트" && ev.agency) agencies.add(ev.agency);
   });
   agencySelect.innerHTML = '<option value="all">전체 기획사</option>';
   [...agencies]
@@ -773,7 +782,7 @@ function renderCalendar() {
     const dotsWrap = document.createElement("div");
     dotsWrap.className = "calendar-dots";
 
-    const dateStr = formatDate(cellDate.toISOString());
+    const dateStr = formatDate(cellDate);
     const eventsOfDay = filtered.filter((ev) => formatDate(ev.openAt) === dateStr);
     const hasUpcoming = eventsOfDay.length > 0;
     const hasMine = eventsOfDay.some((ev) => isInMyCalendar(ev.id));
@@ -795,7 +804,7 @@ function renderCalendar() {
 
     if (eventsOfDay.length > 0) {
       dayEl.style.cursor = "pointer";
-      dayEl.addEventListener("click", () => openDayEventsModal(eventsOfDay, dateStr));
+      dayEl.addEventListener("click", () => openDayEventsModal(eventsOfDay, formatDateLabel(cellDate)));
     }
 
     calendarEl.appendChild(dayEl);
@@ -936,17 +945,20 @@ function openEventModal(ev) {
 }
 
 function openDayEventsModal(events, dateLabel) {
+  if (events.length === 0) return;
+  
   const items = events
     .map(
       (ev) => `
-        <div style="padding:8px 0; border-bottom:1px solid rgba(255,255,255,0.08);">
-          <div style="font-weight:600;">${ev.highlight ? ev.highlight + " " : ""}${ev.title}</div>
-          <div class="meta">${ev.agency} · ${ev.artist}</div>
-          <div style="font-size:12px; color:#a3a7c2;">티켓 오픈: ${formatDateTime(ev.openAt)}</div>
-          <div style="font-size:12px; color:#a3a7c2;">공연 일시: ${formatDateTime(ev.showAt)}</div>
-          <div style="margin-top:6px; display:flex; gap:6px; flex-wrap:wrap;">
+        <div style="padding:10px 0; border-bottom:1px solid rgba(255,255,255,0.08);">
+          <div style="font-weight:600; font-size:14px; margin-bottom:4px;">${ev.highlight ? ev.highlight + " " : ""}${ev.title}</div>
+          <div class="meta" style="margin-bottom:6px;">${ev.agency} · ${ev.artist}</div>
+          <div style="font-size:12px; color:#a3a7c2; margin-bottom:2px;">티켓 오픈: ${formatDateTime(ev.openAt)}</div>
+          <div style="font-size:12px; color:#a3a7c2; margin-bottom:8px;">공연 일시: ${formatDateTime(ev.showAt)}</div>
+          <div style="margin-top:8px; display:flex; gap:6px; flex-wrap:wrap;">
             <button class="outline-btn" onclick="window.open('${ev.siteUrl}','_blank')">예매 페이지 ↗</button>
-            <button class="outline-btn" onclick="window.open('${buildGoogleCalendarLink(ev)}','_blank')">🗓 캘린더(모의)</button>
+            <button class="outline-btn" onclick="window.open('${buildGoogleCalendarLink(ev)}','_blank')">🗓 Google 캘린더(모의)</button>
+            <button class="outline-btn" onclick="window.open('${buildDeviceCalendarLink(ev)}','_blank')">📱 휴대폰 캘린더(모의)</button>
           </div>
         </div>
       `
@@ -954,8 +966,10 @@ function openDayEventsModal(events, dateLabel) {
     .join("");
 
   modalContentEl.innerHTML = `
-    <h3>${dateLabel} 오픈 일정</h3>
-    ${items}
+    <h3 style="margin-bottom:12px;">${dateLabel} 티켓팅 오픈 일정</h3>
+    <div style="max-height:400px; overflow-y:auto;">
+      ${items}
+    </div>
   `;
   modalBackdrop.classList.add("show");
 }
