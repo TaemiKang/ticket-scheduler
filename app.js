@@ -1,46 +1,192 @@
-// === 예시 데이터 (나중에 실제 티켓팅 사이트 & 공연으로 바꾸면 됨) ===
+// === 예시 데이터 (카테고리/세부 카테고리 구조 반영) ===
 const eventsData = [
+  // 공연 랭킹 (Weekly Ranking)
   {
-    id: "1",
-    title: "ABC 페스티벌 2025",
-    category: "콘서트",
-    agency: "ABC 엔터",
-    artist: "ABC ALL",
-    site: "인터파크 티켓",
-    siteUrl: "https://ticket.interpark.com",
-    openAt: "2025-12-10T20:00:00",
-    showAt: "2026-02-01T18:00:00",
-    note: "1인 4매 한정 / 선예매 19:00",
+    id: "rank-1",
+    title: "WEEKLY RANKING #1 - 글로벌 팝 내한",
+    category: "공연 랭킹",
+    subcategory: "주간",
+    agency: "Global Live",
+    artist: "Pop Star",
+    site: "예스24 티켓",
+    siteUrl: "https://ticket.yes24.com/",
+    openAt: "2025-12-05T12:00:00",
+    showAt: "2026-01-20T19:30:00",
+    note: "주간 랭킹 1위 공연",
   },
   {
-    id: "2",
-    title: "뮤지컬 〈별의 노래〉",
-    category: "뮤지컬/연극",
-    agency: "스타뮤지컬컴퍼니",
+    id: "rank-2",
+    title: "WEEKLY RANKING #2 - 뮤지컬 메가히트",
+    category: "공연 랭킹",
+    subcategory: "주간",
+    agency: "뮤지컬컴퍼니",
     artist: "전 캐스트",
-    site: "멜론티켓",
-    siteUrl: "https://ticket.melon.com",
-    openAt: "2025-12-08T14:00:00",
-    showAt: "2026-01-10T15:00:00",
-    note: "VIP 예매 시 사인 포스터 증정",
+    site: "인터파크 티켓",
+    siteUrl: "https://tickets.interpark.com/",
+    openAt: "2025-12-06T10:00:00",
+    showAt: "2026-02-01T19:30:00",
+    note: "주간 랭킹 2위",
+  },
+
+  // 콘서트 (세부: 아이돌, 발라드, 트로트, 인디, 내한, 기타)
+  {
+    id: "c-1",
+    title: "아이돌 페스티벌 2026",
+    category: "콘서트",
+    subcategory: "아이돌",
+    agency: "JYP",
+    artist: "다수 아이돌",
+    site: "예스24 티켓",
+    siteUrl: "https://ticket.yes24.com/Special/55971",
+    openAt: "2025-12-10T20:00:00",
+    showAt: "2026-01-15T18:00:00",
+    note: "팬클럽 선예매 별도",
   },
   {
-    id: "3",
-    title: "2026 시즌 홈 개막전",
+    id: "c-2",
+    title: "발라드 콘서트 : 겨울밤",
+    category: "콘서트",
+    subcategory: "발라드",
+    agency: "Ballad Ent",
+    artist: "발라더즈",
+    site: "멜론티켓",
+    siteUrl: "https://ticket.melon.com/",
+    openAt: "2025-12-12T20:00:00",
+    showAt: "2026-02-01T18:00:00",
+    note: "",
+  },
+  {
+    id: "c-3",
+    title: "트로트 빅쇼",
+    category: "콘서트",
+    subcategory: "트로트",
+    agency: "트롯컴퍼니",
+    artist: "트롯스타",
+    site: "인터파크 티켓",
+    siteUrl: "https://tickets.interpark.com/",
+    openAt: "2025-12-14T20:00:00",
+    showAt: "2026-02-10T18:00:00",
+    note: "",
+  },
+  {
+    id: "c-4",
+    title: "인디 나이트",
+    category: "콘서트",
+    subcategory: "인디",
+    agency: "페포니뮤직",
+    artist: "잔나비",
+    site: "티켓링크",
+    siteUrl: "https://www.ticketlink.co.kr/product/60145",
+    openAt: "2025-12-24T20:00:00",
+    showAt: "2026-04-01T18:00:00",
+    note: "",
+  },
+  {
+    id: "c-5",
+    title: "글로벌 내한 투어",
+    category: "콘서트",
+    subcategory: "내한",
+    agency: "Global Live",
+    artist: "XYZ World Tour",
+    site: "위메프 티켓",
+    siteUrl: "https://ticket.wemakeprice.com",
+    openAt: "2025-12-15T20:00:00",
+    showAt: "2026-04-05T18:00:00",
+    note: "내한 투어 서울",
+  },
+
+  // 뮤지컬/연극 (세부: 뮤지컬, 연극)
+  {
+    id: "m-1",
+    title: "뮤지컬 〈한복 입은 남자〉",
+    category: "뮤지컬/연극",
+    subcategory: "뮤지컬",
+    agency: "인터파크 뮤지컬",
+    artist: "전 캐스트",
+    site: "인터파크 티켓",
+    siteUrl: "https://tickets.interpark.com/contents/notice/detail/11949",
+    openAt: "2025-12-05T10:00:00",
+    showAt: "2026-01-05T19:30:00",
+    note: "",
+  },
+  {
+    id: "m-2",
+    title: "뮤지컬 〈킹키부츠〉",
+    category: "뮤지컬/연극",
+    subcategory: "뮤지컬",
+    agency: "킹키부츠 제작사",
+    artist: "전 캐스트",
+    site: "인터파크 티켓",
+    siteUrl: "https://tickets.interpark.com/goods/25014553",
+    openAt: "2025-12-07T10:00:00",
+    showAt: "2026-01-20T19:30:00",
+    note: "",
+  },
+  {
+    id: "m-3",
+    title: "연극 〈라이프 오브 파이〉",
+    category: "뮤지컬/연극",
+    subcategory: "연극",
+    agency: "Life of Pi 제작사",
+    artist: "전 캐스트",
+    site: "티켓링크",
+    siteUrl: "https://www.ticketlink.co.kr/",
+    openAt: "2025-12-09T10:00:00",
+    showAt: "2026-02-10T19:30:00",
+    note: "",
+  },
+
+  // 스포츠 (세부: 축구, 야구, E스포츠, 기타) - 구단 필터용 필드 추가
+  {
+    id: "s-1",
+    title: "축구 홈 개막전",
     category: "스포츠",
-    agency: "K리그 FC서울",
+    subcategory: "축구",
+    sportClub: "FC서울",
+    agency: "K리그",
     artist: "FC서울",
     site: "티켓링크",
-    siteUrl: "https://www.ticketlink.co.kr",
+    siteUrl: "https://www.ticketlink.co.kr/sports/137/63",
     openAt: "2025-12-20T11:00:00",
     showAt: "2026-03-02T14:00:00",
-    note: "시즌권 선예매 1일 전 오픈",
+    note: "축구 구단 예매 페이지",
   },
   {
-    id: "4",
+    id: "s-2",
+    title: "야구 시즌 홈 개막전",
+    category: "스포츠",
+    subcategory: "야구",
+    sportClub: "KIA 타이거즈",
+    agency: "KBO",
+    artist: "KIA 타이거즈",
+    site: "티켓링크",
+    siteUrl: "https://www.ticketlink.co.kr/sports/137/58",
+    openAt: "2026-02-20T11:00:00",
+    showAt: "2026-03-30T18:30:00",
+    note: "야구 구단 예매 페이지",
+  },
+  {
+    id: "s-3",
+    title: "E스포츠 결승전",
+    category: "스포츠",
+    subcategory: "E스포츠",
+    sportClub: "LCK Finals",
+    agency: "E-스포츠 리그",
+    artist: "결승팀",
+    site: "예스24 티켓",
+    siteUrl: "https://ticket.yes24.com/",
+    openAt: "2026-01-05T18:00:00",
+    showAt: "2026-02-12T18:00:00",
+    note: "",
+  },
+
+  // 클래식/무용
+  {
+    id: "cl-1",
     title: "신년 클래식 갈라",
-    category: "클래식",
-    agency: "서울시립교향악단",
+    category: "클래식/무용",
+    subcategory: "클래식",
+    agency: "서울시향",
     artist: "서울시향",
     site: "예스24 티켓",
     siteUrl: "https://ticket.yes24.com",
@@ -48,31 +194,42 @@ const eventsData = [
     showAt: "2026-01-01T19:30:00",
     note: "학생 할인 30%",
   },
+
+  // 가족/어린이
   {
-    id: "5",
-    title: "XYZ WORLD TOUR in SEOUL",
-    category: "콘서트",
-    agency: "XYZ 엔터테인먼트",
-    artist: "XYZ",
-    site: "위메프 티켓",
-    siteUrl: "https://ticket.wemakeprice.com",
-    openAt: "2025-12-15T20:00:00",
-    showAt: "2026-04-05T18:00:00",
-    note: "팬클럽 선예매 12/14 20:00",
+    id: "fam-1",
+    title: "패밀리 콘서트",
+    category: "가족/어린이",
+    subcategory: "패밀리",
+    agency: "Family Ent",
+    artist: "전 연령",
+    site: "인터파크 티켓",
+    siteUrl: "https://tickets.interpark.com/",
+    openAt: "2025-12-18T10:00:00",
+    showAt: "2026-02-10T14:00:00",
+    note: "전 연령 관람가",
   },
 ];
 
 // === 상태 ===
 let currentView = "all"; // 'all' | 'my'
 let currentMonth = new Date(); // 오늘이 포함된 달
-let currentCategory = "all";
+let currentCategory = "전체";
+let currentSubcategory = "전체";
 let currentAgency = "all";
 let currentArtist = "all";
+let currentSoccerClub = "all";
+let currentBaseballClub = "all";
 let myCalendar = loadMyCalendar();
 
 // === DOM 요소 ===
 const categoryChips = document.getElementById("category-chips");
+const subcategoryChips = document.getElementById("subcategory-chips");
 const agencySelect = document.getElementById("agency-select");
+const agencyWrap = document.getElementById("agency-wrap");
+const sportsWrap = document.getElementById("sports-wrap");
+const soccerSelect = document.getElementById("soccer-select");
+const baseballSelect = document.getElementById("baseball-select");
 const artistSelect = document.getElementById("artist-select");
 const resetFiltersBtn = document.getElementById("reset-filters");
 const enableNotiBtn = document.getElementById("enable-noti");
@@ -88,6 +245,17 @@ const eventsListEl = document.getElementById("events-list");
 const modalBackdrop = document.getElementById("event-modal-backdrop");
 const modalCloseBtn = document.getElementById("modal-close");
 const modalContentEl = document.getElementById("modal-content");
+
+// 세부 카테고리 정의
+const subcategoriesByCategory = {
+  전체: ["전체"],
+  "공연 랭킹": ["전체", "주간"],
+  콘서트: ["전체", "아이돌", "발라드", "트로트", "인디", "내한", "기타"],
+  "뮤지컬/연극": ["전체", "뮤지컬", "연극"],
+  스포츠: ["전체", "축구", "야구", "E스포츠", "기타"],
+  "클래식/무용": ["전체", "클래식", "무용", "기타"],
+  "가족/어린이": ["전체", "패밀리", "어린이", "기타"],
+};
 
 // === 유틸 함수 ===
 function formatDateTime(iso) {
@@ -146,25 +314,33 @@ function toggleMyCalendar(id) {
 // === 필터 처리 ===
 function applyFilters(data) {
   return data.filter((ev) => {
-    if (currentCategory !== "all" && ev.category !== currentCategory) return false;
-    if (currentAgency !== "all" && ev.agency !== currentAgency) return false;
+    if (currentCategory !== "전체" && ev.category !== currentCategory) return false;
+    if (currentSubcategory !== "전체" && ev.subcategory !== currentSubcategory) return false;
+
+    // 콘서트: 기획사 필터
+    if (currentCategory === "콘서트" && currentAgency !== "all" && ev.agency !== currentAgency)
+      return false;
+
+    // 스포츠: 구단 필터
+    if (currentCategory === "스포츠") {
+      if (currentSubcategory === "축구" && currentSoccerClub !== "all" && ev.sportClub !== currentSoccerClub)
+        return false;
+      if (currentSubcategory === "야구" && currentBaseballClub !== "all" && ev.sportClub !== currentBaseballClub)
+        return false;
+    }
+
     if (currentArtist !== "all" && ev.artist !== currentArtist) return false;
     if (currentView === "my" && !isInMyCalendar(ev.id)) return false;
     return true;
   });
 }
 
-function buildAgencyAndArtistOptions() {
+function buildFilterOptions() {
+  // 기획사 (콘서트용)
   const agencies = new Set();
-  const artistsByAgency = {};
-
   eventsData.forEach((ev) => {
-    agencies.add(ev.agency);
-    if (!artistsByAgency[ev.agency]) artistsByAgency[ev.agency] = new Set();
-    artistsByAgency[ev.agency].add(ev.artist);
+    if (ev.category === "콘서트") agencies.add(ev.agency);
   });
-
-  // 기획사 옵션
   agencySelect.innerHTML = '<option value="all">전체 기획사</option>';
   [...agencies]
     .sort()
@@ -175,39 +351,67 @@ function buildAgencyAndArtistOptions() {
       agencySelect.appendChild(opt);
     });
 
-  // 아티스트 옵션 (현재 선택된 기획사 기준)
-  buildArtistOptions(artistsByAgency);
-}
-
-function buildArtistOptions(artistsByAgency) {
-  artistSelect.innerHTML = '<option value="all">전체 아티스트</option>';
-
-  if (currentAgency === "all") {
-    // 전체 기획사일 때는 전체 아티스트를 묶어서 보여줌
-    const allArtists = new Set();
-    Object.values(artistsByAgency).forEach((set) => {
-      set.forEach((a) => allArtists.add(a));
+  // 스포츠 구단 (축구/야구)
+  const soccerClubs = new Set();
+  const baseballClubs = new Set();
+  eventsData.forEach((ev) => {
+    if (ev.category === "스포츠" && ev.subcategory === "축구" && ev.sportClub) {
+      soccerClubs.add(ev.sportClub);
+    }
+    if (ev.category === "스포츠" && ev.subcategory === "야구" && ev.sportClub) {
+      baseballClubs.add(ev.sportClub);
+    }
+  });
+  soccerSelect.innerHTML = '<option value="all">축구 구단 전체</option>';
+  [...soccerClubs]
+    .sort()
+    .forEach((club) => {
+      const opt = document.createElement("option");
+      opt.value = club;
+      opt.textContent = club;
+      soccerSelect.appendChild(opt);
+    });
+  baseballSelect.innerHTML = '<option value="all">야구 구단 전체</option>';
+  [...baseballClubs]
+    .sort()
+    .forEach((club) => {
+      const opt = document.createElement("option");
+      opt.value = club;
+      opt.textContent = club;
+      baseballSelect.appendChild(opt);
     });
 
-    [...allArtists]
-      .sort()
-      .forEach((artist) => {
-        const opt = document.createElement("option");
-        opt.value = artist;
-        opt.textContent = artist;
-        artistSelect.appendChild(opt);
-      });
-  } else {
-    const artists = artistsByAgency[currentAgency] || new Set();
-    [...artists]
-      .sort()
-      .forEach((artist) => {
-        const opt = document.createElement("option");
-        opt.value = artist;
-        opt.textContent = artist;
-        artistSelect.appendChild(opt);
-      });
-  }
+  // 아티스트 전체
+  const artists = new Set(eventsData.map((ev) => ev.artist));
+  artistSelect.innerHTML = '<option value="all">전체 아티스트</option>';
+  [...artists]
+    .sort()
+    .forEach((artist) => {
+      const opt = document.createElement("option");
+      opt.value = artist;
+      opt.textContent = artist;
+      artistSelect.appendChild(opt);
+    });
+}
+
+function buildSubcategoryChips() {
+  const subs = subcategoriesByCategory[currentCategory] || ["전체"];
+  subcategoryChips.innerHTML = "";
+  subs.forEach((sub, idx) => {
+    const btn = document.createElement("button");
+    btn.className = "chip" + (idx === 0 ? " active" : "");
+    btn.dataset.subcategory = sub;
+    btn.textContent = sub;
+    subcategoryChips.appendChild(btn);
+  });
+  currentSubcategory = "전체";
+}
+
+function updateFilterVisibility() {
+  agencyWrap.style.display = currentCategory === "콘서트" ? "block" : "none";
+  sportsWrap.style.display = currentCategory === "스포츠" ? "block" : "none";
+  soccerSelect.style.display = currentCategory === "스포츠" && currentSubcategory === "축구" ? "block" : "none";
+  baseballSelect.style.display = currentCategory === "스포츠" && currentSubcategory === "야구" ? "block" : "none";
 }
 
 // === 캘린더 렌더링 ===
@@ -218,11 +422,6 @@ function renderCalendar() {
   const month = currentMonth.getMonth();
 
   const firstDayOfMonth = new Date(year, month, 1);
-  const lastDayOfMonth = new Date(year, month + 1, 0);
-
-  currentMonthEl.textContent = `${year}년 ${month + 1}월`;
-
-  // 달력 그리기에 필요한 시작일(해당 달의 첫째 주 일요일) 계산
   const startDate = new Date(firstDayOfMonth);
   startDate.setDate(firstDayOfMonth.getDate() - firstDayOfMonth.getDay()); // 0=일요일
 
@@ -291,7 +490,7 @@ function renderEventsList() {
   if (currentView === "my") {
     eventsTitleEl.textContent = "내 캘린더에 담은 일정";
   } else {
-    eventsTitleEl.textContent = "전체 일정";
+    eventsTitleEl.textContent = currentCategory === "전체" ? "전체 일정" : `${currentCategory} 일정`;
   }
 
   if (filtered.length === 0) {
@@ -430,22 +629,38 @@ categoryChips.addEventListener("click", (e) => {
   categoryChips.querySelectorAll(".chip").forEach((c) => c.classList.remove("active"));
   btn.classList.add("active");
   currentCategory = btn.dataset.category;
+  currentSubcategory = "전체";
+  buildSubcategoryChips();
+  updateFilterVisibility();
+  renderCalendar();
+  renderEventsList();
+});
+
+subcategoryChips.addEventListener("click", (e) => {
+  const btn = e.target.closest(".chip");
+  if (!btn) return;
+  subcategoryChips.querySelectorAll(".chip").forEach((c) => c.classList.remove("active"));
+  btn.classList.add("active");
+  currentSubcategory = btn.dataset.subcategory;
+  updateFilterVisibility();
   renderCalendar();
   renderEventsList();
 });
 
 agencySelect.addEventListener("change", () => {
   currentAgency = agencySelect.value;
-  currentArtist = "all";
-  // 기획사 선택에 맞춰 아티스트 옵션 다시 구성
-  const agencies = new Set();
-  const artistsByAgency = {};
-  eventsData.forEach((ev) => {
-    agencies.add(ev.agency);
-    if (!artistsByAgency[ev.agency]) artistsByAgency[ev.agency] = new Set();
-    artistsByAgency[ev.agency].add(ev.artist);
-  });
-  buildArtistOptions(artistsByAgency);
+  renderCalendar();
+  renderEventsList();
+});
+
+soccerSelect.addEventListener("change", () => {
+  currentSoccerClub = soccerSelect.value;
+  renderCalendar();
+  renderEventsList();
+});
+
+baseballSelect.addEventListener("change", () => {
+  currentBaseballClub = baseballSelect.value;
   renderCalendar();
   renderEventsList();
 });
@@ -457,12 +672,16 @@ artistSelect.addEventListener("change", () => {
 });
 
 resetFiltersBtn.addEventListener("click", () => {
-  currentCategory = "all";
+  currentCategory = "전체";
+  currentSubcategory = "전체";
   currentAgency = "all";
   currentArtist = "all";
+  currentSoccerClub = "all";
+  currentBaseballClub = "all";
   categoryChips.querySelectorAll(".chip").forEach((c) => c.classList.remove("active"));
-  categoryChips.querySelector('[data-category="all"]').classList.add("active");
-  buildAgencyAndArtistOptions();
+  categoryChips.querySelector('[data-category="전체"]').classList.add("active");
+  buildSubcategoryChips();
+  updateFilterVisibility();
   renderCalendar();
   renderEventsList();
 });
@@ -496,9 +715,13 @@ modalBackdrop.addEventListener("click", (e) => {
 
 // === 초기화 ===
 function init() {
-  buildAgencyAndArtistOptions();
+  buildFilterOptions();
+  buildSubcategoryChips();
+  updateFilterVisibility();
   renderCalendar();
   renderEventsList();
 }
 
 document.addEventListener("DOMContentLoaded", init);
+
+
