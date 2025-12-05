@@ -209,6 +209,89 @@ const eventsData = [
     showAt: "2026-02-10T14:00:00",
     note: "전 연령 관람가",
   },
+
+  // 팝업스토어 (아이돌/시즌/기타)
+  {
+    id: "p-1",
+    title: "팝업스토어 - 아이돌 A",
+    category: "팝업스토어",
+    subcategory: "아이돌",
+    agency: "아이돌팝업",
+    artist: "아이돌 A",
+    site: "네이버 예약",
+    siteUrl:
+      "https://booking.naver.com/booking/12/bizes/581926/items/7191828?startDateTime=2025-12-05T00%3A00%3A00%2B09%3A00",
+    openAt: "2025-12-05T10:00:00",
+    showAt: "2025-12-20T20:00:00",
+    note: "아이돌 팝업스토어 예시",
+  },
+  {
+    id: "p-2",
+    title: "팝업스토어 - 아이돌 B (NMIXX EP.1)",
+    category: "팝업스토어",
+    subcategory: "아이돌",
+    agency: "아이돌팝업",
+    artist: "NMIXX",
+    site: "네이버 예약",
+    siteUrl:
+      "https://booking.naver.com/booking/12/bizes/1091186/items/7213860?startDateTime=2025-12-05T00%3A00%3A00%2B09%3A00&utm_campaign=nmixx_popup_episode1_zerofrontier_naver_booking&utm_medium=sns&utm_source=twitter",
+    openAt: "2025-12-05T10:00:00",
+    showAt: "2025-12-25T20:00:00",
+    note: "NMIXX 팝업스토어",
+  },
+  {
+    id: "p-3",
+    title: "팝업스토어 - 시즌 에디션",
+    category: "팝업스토어",
+    subcategory: "시즌",
+    agency: "Seasonal Pop",
+    artist: "Seasonal Line",
+    site: "네이버 예약",
+    siteUrl:
+      "https://m.booking.naver.com/booking/12/bizes/1529548/items/7216347?area=bmp&startDateTime=2025-12-05T00%3A00%3A00%2B09%3A00",
+    openAt: "2025-12-05T10:00:00",
+    showAt: "2026-01-10T20:00:00",
+    note: "시즌 한정 팝업",
+  },
+  {
+    id: "p-4",
+    title: "팝업스토어 - 기타 1",
+    category: "팝업스토어",
+    subcategory: "기타",
+    agency: "기타팝업",
+    artist: "기타 브랜드 1",
+    site: "네이버 예약",
+    siteUrl: "https://m.booking.naver.com/booking/6/bizes/1510139/items/7107356?area=bmp&startDate=2025-12-05",
+    openAt: "2025-12-05T10:00:00",
+    showAt: "2026-01-05T20:00:00",
+    note: "",
+  },
+  {
+    id: "p-5",
+    title: "팝업스토어 - 기타 2",
+    category: "팝업스토어",
+    subcategory: "기타",
+    agency: "기타팝업",
+    artist: "기타 브랜드 2",
+    site: "네이버 예약",
+    siteUrl: "https://booking.naver.com/booking/13/bizes/1185210/items/7207891?startDate=2025-12-05",
+    openAt: "2025-12-05T10:00:00",
+    showAt: "2026-01-12T20:00:00",
+    note: "",
+  },
+  {
+    id: "p-6",
+    title: "팝업스토어 - 기타 3",
+    category: "팝업스토어",
+    subcategory: "기타",
+    agency: "기타팝업",
+    artist: "기타 브랜드 3",
+    site: "네이버 예약",
+    siteUrl: "https://m.booking.naver.com/booking/6/bizes/1543589/items/7227353",
+    openAt: "2025-12-05T10:00:00",
+    showAt: "2026-01-15T20:00:00",
+    note: "",
+  },
 ];
 
 // === 상태 ===
@@ -255,6 +338,7 @@ const subcategoriesByCategory = {
   스포츠: ["전체", "축구", "야구", "E스포츠", "기타"],
   "클래식/무용": ["전체", "클래식", "무용", "기타"],
   "가족/어린이": ["전체", "패밀리", "어린이", "기타"],
+  팝업스토어: ["전체", "아이돌", "시즌", "기타"],
 };
 
 // === 유틸 함수 ===
