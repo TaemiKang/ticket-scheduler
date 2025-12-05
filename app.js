@@ -1154,30 +1154,69 @@ function openEventModal(ev) {
 function openDayEventsModal(events, dateLabel) {
   if (events.length === 0) return;
   
-  const items = events
-    .map(
-      (ev) => `
-        <div style="padding:10px 0; border-bottom:1px solid rgba(255,255,255,0.08);">
-          <div style="font-weight:600; font-size:14px; margin-bottom:4px;">${ev.highlight ? ev.highlight + " " : ""}${ev.title}</div>
-          <div class="meta" style="margin-bottom:6px;">${ev.agency} · ${ev.artist}</div>
-          <div style="font-size:12px; color:#a3a7c2; margin-bottom:2px;">티켓 오픈: ${formatDateTime(ev.openAt)}</div>
-          <div style="font-size:12px; color:#a3a7c2; margin-bottom:8px;">공연 일시: ${formatDateTime(ev.showAt)}</div>
-          <div style="margin-top:8px; display:flex; gap:6px; flex-wrap:wrap;">
-            <button class="outline-btn" onclick="window.open('${ev.siteUrl}','_blank')">예매 페이지 ↗</button>
-            <button class="outline-btn" onclick="window.open('${buildGoogleCalendarLink(ev)}','_blank')">🗓 Google 캘린더(모의)</button>
-            <button class="outline-btn" onclick="window.open('${buildDeviceCalendarLink(ev)}','_blank')">📱 휴대폰 캘린더(모의)</button>
-          </div>
-        </div>
-      `
-    )
-    .join("");
-
   modalContentEl.innerHTML = `
     <h3 style="margin-bottom:12px;">${dateLabel} 티켓팅 오픈 일정</h3>
-    <div style="max-height:400px; overflow-y:auto;">
-      ${items}
+    <div style="max-height:400px; overflow-y:auto;" id="day-events-list">
     </div>
   `;
+  
+  const eventsListEl = document.getElementById("day-events-list");
+  
+  events.forEach((ev, index) => {
+    const myItem = isInMyCalendar(ev.id) ? getMyCalendarItem(ev.id) : null;
+    const iconText = myItem && myItem.icon ? myItem.icon + " " : "";
+    const isInMyCal = isInMyCalendar(ev.id);
+    
+    const eventDiv = document.createElement("div");
+    eventDiv.style.padding = "10px 0";
+    eventDiv.style.borderBottom = "1px solid rgba(255,255,255,0.08)";
+    
+    eventDiv.innerHTML = `
+      <div style="font-weight:600; font-size:14px; margin-bottom:4px;">${ev.highlight ? ev.highlight + " " : ""}${iconText}${ev.title}</div>
+      <div class="meta" style="margin-bottom:6px;">${ev.agency} · ${ev.artist}</div>
+      ${myItem && myItem.memo ? `<div style="font-size:11px; color:#81ecec; margin-bottom:4px;">💬 ${myItem.memo}</div>` : ""}
+      <div style="font-size:12px; color:#a3a7c2; margin-bottom:2px;">티켓 오픈: ${formatDateTime(ev.openAt)}</div>
+      <div style="font-size:12px; color:#a3a7c2; margin-bottom:8px;">공연 일시: ${formatDateTime(ev.showAt)}</div>
+      <div style="margin-top:8px; display:flex; gap:6px; flex-wrap:wrap;">
+        <button class="outline-btn day-event-btn" data-action="site" data-url="${ev.siteUrl}">예매 페이지 ↗</button>
+        <button class="outline-btn day-event-btn" data-action="google" data-url="${buildGoogleCalendarLink(ev)}">🗓 Google 캘린더(모의)</button>
+        <button class="outline-btn day-event-btn" data-action="device" data-url="${buildDeviceCalendarLink(ev)}">📱 휴대폰 캘린더(모의)</button>
+        <button class="secondary-btn day-event-btn ${isInMyCal ? 'mine' : ''}" data-action="calendar" data-event-id="${ev.id}">${isInMyCal ? '내 캘린더에서 제거' : '내 캘린더에 담기'}</button>
+      </div>
+    `;
+    
+    eventsListEl.appendChild(eventDiv);
+  });
+  
+  // 버튼 이벤트 리스너
+  eventsListEl.querySelectorAll(".day-event-btn").forEach(btn => {
+    btn.addEventListener("click", (e) => {
+      const action = btn.dataset.action;
+      const url = btn.dataset.url;
+      const eventId = btn.dataset.eventId;
+      
+      if (action === "site" || action === "google" || action === "device") {
+        window.open(url, "_blank");
+      } else if (action === "calendar") {
+        if (isInMyCalendar(eventId)) {
+          removeFromMyCalendar(eventId);
+          closeEventModal();
+          renderCalendar();
+          renderEventsList();
+          // 팝업 다시 열기
+          setTimeout(() => {
+            const dateStr = formatDate(events[0].openAt);
+            const eventsOfDay = eventsData.filter((ev) => formatDate(ev.openAt) === dateStr);
+            openDayEventsModal(eventsOfDay, dateLabel);
+          }, 100);
+        } else {
+          closeEventModal();
+          openAddToCalendarModal(eventId);
+        }
+      }
+    });
+  });
+  
   modalBackdrop.classList.add("show");
 }
 
@@ -1256,6 +1295,18 @@ function openAddToCalendarModal(eventId) {
     closeEventModal();
     renderCalendar();
     renderEventsList();
+    
+    // 캘린더 팝업이 열려있었다면 다시 열기
+    const ev = eventsData.find(e => e.id === eventId);
+    if (ev) {
+      setTimeout(() => {
+        const dateStr = formatDate(ev.openAt);
+        const eventsOfDay = eventsData.filter((e) => formatDate(e.openAt) === dateStr);
+        if (eventsOfDay.length > 0) {
+          openDayEventsModal(eventsOfDay, formatDateLabel(new Date(ev.openAt)));
+        }
+      }, 200);
+    }
   });
   
   // 취소 버튼
