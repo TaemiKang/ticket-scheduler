@@ -721,8 +721,17 @@ function getSiteColor(site) {
   if (site.includes("멜론티켓") || site.includes("멜론")) return "#2ecc71"; // 초록색
   if (site.includes("예스24") || site.includes("YES24")) return "#ffffff"; // 흰색
   if (site.includes("티켓링크") || site.includes("ticketlink")) return "#e74c3c"; // 빨간색
-  if (site.includes("인터파크")) return "#3498db"; // 파란색 (기본)
+  if (site.includes("인터파크")) return "#a29bff"; // 보라색
   return "#a29bff"; // 기본 보라색
+}
+
+// 예매처 텍스트 색상 반환
+function getSiteTextColor(site) {
+  if (!site) return "var(--text-muted)"; // 기본 색상
+  if (site.includes("인터파크")) return "#a29bff"; // 보라색
+  if (site.includes("멜론티켓") || site.includes("멜론")) return "#2ecc71"; // 초록색
+  // 예스24, 티켓링크는 기본 색상
+  return "var(--text-muted)"; // 기본 색상
 }
 
 // === 로컬스토리지 ===
@@ -1130,6 +1139,7 @@ function renderRankingList() {
     const siteTag = document.createElement("span");
     siteTag.className = "tag site";
     siteTag.textContent = ev.site;
+    siteTag.style.color = getSiteTextColor(ev.site);
     tags.appendChild(siteTag);
 
     eventInfo.appendChild(title);
@@ -1204,6 +1214,7 @@ function renderEventsList() {
     const site = document.createElement("span");
     site.className = "tag site";
     site.textContent = ev.site;
+    site.style.color = getSiteTextColor(ev.site);
 
     tags.appendChild(cat);
     tags.appendChild(sub);
@@ -1290,7 +1301,7 @@ function openEventModal(ev) {
     <p><strong>카테고리:</strong> ${ev.category}${ev.subcategory ? " / " + ev.subcategory : ""}</p>
     <p><strong>티켓 오픈:</strong> ${formatDateTime(ev.openAt)}</p>
     <p><strong>공연 일시:</strong> ${formatDateTime(ev.showAt)}</p>
-    <p><strong>예매처:</strong> ${ev.site}</p>
+    <p><strong>예매처:</strong> <span style="color:${getSiteTextColor(ev.site)};">${ev.site}</span></p>
     ${
       ev.note
         ? `<p style="margin-top:4px;"><strong>비고:</strong> ${ev.note}</p>`
