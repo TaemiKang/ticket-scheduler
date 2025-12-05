@@ -318,6 +318,7 @@ const resetFiltersBtn = document.getElementById("reset-filters");
 const enableNotiBtn = document.getElementById("enable-noti");
 
 const navButtons = document.querySelectorAll(".nav-btn");
+const navPopupstoreBtn = document.getElementById("nav-popupstore");
 const calendarEl = document.getElementById("calendar");
 const currentMonthEl = document.getElementById("current-month");
 const prevMonthBtn = document.getElementById("prev-month");
@@ -789,6 +790,24 @@ navButtons.forEach((btn) => {
     renderEventsList();
   });
 });
+
+if (navPopupstoreBtn) {
+  navPopupstoreBtn.addEventListener("click", () => {
+    // view는 전체로 유지, 카테고리만 팝업스토어로 바로 이동
+    navButtons.forEach((b) => b.classList.remove("active"));
+    currentView = "all";
+    currentCategory = "팝업스토어";
+    currentSubcategory = "전체";
+    // 카테고리 칩도 동기화
+    categoryChips.querySelectorAll(".chip").forEach((c) => c.classList.remove("active"));
+    const target = categoryChips.querySelector('[data-category="팝업스토어"]');
+    if (target) target.classList.add("active");
+    buildSubcategoryChips();
+    updateFilterVisibility();
+    renderCalendar();
+    renderEventsList();
+  });
+}
 
 enableNotiBtn.addEventListener("click", requestNotificationPermission);
 
