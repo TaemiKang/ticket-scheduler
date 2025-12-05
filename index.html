@@ -9,7 +9,7 @@
   <header class="header">
     <div class="logo">티켓알리미</div>
     <nav class="nav">
-      <button class="nav-btn" data-view="all">전체 일정</button>
+      <button class="nav-btn active" data-view="all">전체 일정</button>
       <button class="nav-btn" data-view="my">내 캘린더</button>
     </nav>
   </header>
@@ -19,17 +19,36 @@
     <section class="sidebar">
       <h2>카테고리</h2>
       <div class="chips" id="category-chips">
-        <button class="chip active" data-category="all">전체</button>
+        <button class="chip active" data-category="전체">전체</button>
+        <button class="chip" data-category="공연 랭킹">공연 랭킹</button>
         <button class="chip" data-category="콘서트">콘서트</button>
         <button class="chip" data-category="뮤지컬/연극">뮤지컬/연극</button>
         <button class="chip" data-category="스포츠">스포츠</button>
-        <button class="chip" data-category="클래식">클래식</button>
+        <button class="chip" data-category="클래식/무용">클래식/무용</button>
+        <button class="chip" data-category="가족/어린이">가족/어린이</button>
       </div>
 
-      <h2>기획사 선택</h2>
-      <select id="agency-select">
-        <option value="all">전체 기획사</option>
-      </select>
+      <h2>세부 카테고리</h2>
+      <div class="chips" id="subcategory-chips">
+        <button class="chip active" data-subcategory="전체">전체</button>
+      </div>
+
+      <div id="agency-wrap">
+        <h2>기획사 선택 (콘서트)</h2>
+        <select id="agency-select">
+          <option value="all">전체 기획사</option>
+        </select>
+      </div>
+
+      <div id="sports-wrap">
+        <h2>스포츠 구단 선택</h2>
+        <select id="soccer-select">
+          <option value="all">축구 구단 전체</option>
+        </select>
+        <select id="baseball-select" style="margin-top:8px;">
+          <option value="all">야구 구단 전체</option>
+        </select>
+      </div>
 
       <h2>아티스트</h2>
       <select id="artist-select">
@@ -82,3 +101,5 @@
   <script src="app.js"></script>
 </body>
 </html>
+
+
