@@ -370,6 +370,24 @@ select:focus {
   padding-top: 17px;
 }
 
+/* 랭킹 리스트 */
+.ranking-section {
+  margin-bottom: 20px;
+}
+
+.ranking-list {
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+}
+
+.ranking-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 12px 28px rgba(0, 0, 0, 0.6);
+  border-color: rgba(162, 155, 255, 0.7);
+  background: radial-gradient(circle at right top, rgba(108, 92, 231, 0.18), rgba(11, 14, 36, 0.98));
+}
+
 /* 이벤트 리스트 */
 .events-section {
   margin-top: 6px;
