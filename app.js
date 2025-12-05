@@ -1,190 +1,481 @@
-// === 예시 데이터 (카테고리/세부 카테고리 구조 반영) ===
+// === 실제 데이터 반영 (요청 기반) ===
 const eventsData = [
-  // 공연 랭킹 (Weekly Ranking)
+  // 콘서트 - WEEKLY RANKING
   {
-    id: "rank-1",
-    title: "WEEKLY RANKING #1 - 글로벌 팝 내한",
-    category: "공연 랭킹",
-    subcategory: "주간",
-    agency: "Global Live",
-    artist: "Pop Star",
+    id: "c-rank-1",
+    title: "WEEKLY RANKING #1 - 데이식스(DAY6)",
+    category: "콘서트",
+    subcategory: "WEEKLY RANKING",
+    agency: "JYP",
+    artist: "데이식스(DAY6)",
     site: "예스24 티켓",
-    siteUrl: "https://ticket.yes24.com/",
-    openAt: "2025-12-05T12:00:00",
-    showAt: "2026-01-20T19:30:00",
-    note: "주간 랭킹 1위 공연",
+    siteUrl: "https://ticket.yes24.com/Special/55971",
+    openAt: "2025-12-05T20:00:00",
+    showAt: "2026-01-15T18:00:00",
+    note: "인기순위 1위",
+    highlight: "⭐",
   },
   {
-    id: "rank-2",
-    title: "WEEKLY RANKING #2 - 뮤지컬 메가히트",
-    category: "공연 랭킹",
-    subcategory: "주간",
-    agency: "뮤지컬컴퍼니",
-    artist: "전 캐스트",
+    id: "c-rank-2",
+    title: "WEEKLY RANKING #2 - 엑소(EXO)",
+    category: "콘서트",
+    subcategory: "WEEKLY RANKING",
+    agency: "SM",
+    artist: "엑소(EXO)",
+    site: "멜론티켓",
+    siteUrl: "https://ticket.melon.com/performance/index.htm?prodId=212218",
+    openAt: "2025-12-06T20:00:00",
+    showAt: "2026-02-20T18:00:00",
+    note: "인기순위 2위",
+    highlight: "⭐",
+  },
+  {
+    id: "c-rank-3",
+    title: "WEEKLY RANKING #3 - 세븐틴 SEVENTEEN",
+    category: "콘서트",
+    subcategory: "WEEKLY RANKING",
+    agency: "HYBE",
+    artist: "세븐틴 SEVENTEEN",
     site: "인터파크 티켓",
-    siteUrl: "https://tickets.interpark.com/",
-    openAt: "2025-12-06T10:00:00",
-    showAt: "2026-02-01T19:30:00",
-    note: "주간 랭킹 2위",
+    siteUrl: "https://tickets.interpark.com/goods/25010508",
+    openAt: "2025-12-07T20:00:00",
+    showAt: "2026-02-25T18:00:00",
+    note: "인기순위 3위",
+    highlight: "⭐",
   },
 
-  // 콘서트 (세부: 아이돌, 발라드, 트로트, 인디, 내한, 기타)
+  // 콘서트 - 아이돌
   {
-    id: "c-1",
-    title: "아이돌 페스티벌 2026",
+    id: "c-idol-1",
+    title: "데이식스(DAY6)",
     category: "콘서트",
     subcategory: "아이돌",
     agency: "JYP",
-    artist: "다수 아이돌",
+    artist: "데이식스(DAY6)",
     site: "예스24 티켓",
     siteUrl: "https://ticket.yes24.com/Special/55971",
     openAt: "2025-12-10T20:00:00",
-    showAt: "2026-01-15T18:00:00",
-    note: "팬클럽 선예매 별도",
-  },
-  {
-    id: "c-2",
-    title: "발라드 콘서트 : 겨울밤",
-    category: "콘서트",
-    subcategory: "발라드",
-    agency: "Ballad Ent",
-    artist: "발라더즈",
-    site: "멜론티켓",
-    siteUrl: "https://ticket.melon.com/",
-    openAt: "2025-12-12T20:00:00",
-    showAt: "2026-02-01T18:00:00",
+    showAt: "2026-01-20T18:00:00",
     note: "",
   },
   {
-    id: "c-3",
-    title: "트로트 빅쇼",
+    id: "c-idol-2",
+    title: "엑스디너리 히어로즈(Xdinary Heroes)",
     category: "콘서트",
-    subcategory: "트로트",
-    agency: "트롯컴퍼니",
-    artist: "트롯스타",
+    subcategory: "아이돌",
+    agency: "JYP",
+    artist: "엑스디너리 히어로즈",
+    site: "멜론티켓",
+    siteUrl: "https://ticket.melon.com/csoon/detail.htm?csoonId=11386",
+    openAt: "2025-12-11T20:00:00",
+    showAt: "2026-02-05T18:00:00",
+    note: "",
+  },
+  {
+    id: "c-idol-3",
+    title: "킥플립 (KickFlip)",
+    category: "콘서트",
+    subcategory: "아이돌",
+    agency: "JYP",
+    artist: "킥플립 (KickFlip)",
     site: "인터파크 티켓",
-    siteUrl: "https://tickets.interpark.com/",
-    openAt: "2025-12-14T20:00:00",
+    siteUrl: "https://tickets.interpark.com/goods/25017536",
+    openAt: "2025-12-12T20:00:00",
     showAt: "2026-02-10T18:00:00",
     note: "",
   },
   {
-    id: "c-4",
-    title: "인디 나이트",
+    id: "c-idol-4",
+    title: "엑소(EXO)",
     category: "콘서트",
-    subcategory: "인디",
-    agency: "페포니뮤직",
-    artist: "잔나비",
-    site: "티켓링크",
-    siteUrl: "https://www.ticketlink.co.kr/product/60145",
-    openAt: "2025-12-24T20:00:00",
-    showAt: "2026-04-01T18:00:00",
+    subcategory: "아이돌",
+    agency: "SM",
+    artist: "엑소(EXO)",
+    site: "멜론티켓",
+    siteUrl: "https://ticket.melon.com/performance/index.htm?prodId=212218",
+    openAt: "2025-12-16T20:00:00",
+    showAt: "2026-03-01T18:00:00",
     note: "",
   },
   {
-    id: "c-5",
-    title: "글로벌 내한 투어",
+    id: "c-idol-5",
+    title: "세븐틴 SEVENTEEN",
     category: "콘서트",
-    subcategory: "내한",
-    agency: "Global Live",
-    artist: "XYZ World Tour",
-    site: "위메프 티켓",
-    siteUrl: "https://ticket.wemakeprice.com",
-    openAt: "2025-12-15T20:00:00",
-    showAt: "2026-04-05T18:00:00",
-    note: "내한 투어 서울",
+    subcategory: "아이돌",
+    agency: "HYBE",
+    artist: "세븐틴",
+    site: "인터파크 티켓",
+    siteUrl: "https://tickets.interpark.com/goods/25010508",
+    openAt: "2025-12-18T20:00:00",
+    showAt: "2026-03-05T18:00:00",
+    note: "",
+  },
+  {
+    id: "c-idol-6",
+    title: "투어스 TWS",
+    category: "콘서트",
+    subcategory: "아이돌",
+    agency: "HYBE",
+    artist: "TWS",
+    site: "인터파크 티켓",
+    siteUrl: "https://tickets.interpark.com/goods/25006220",
+    openAt: "2025-12-19T20:00:00",
+    showAt: "2026-03-12T18:00:00",
+    note: "",
   },
 
-  // 뮤지컬/연극 (세부: 뮤지컬, 연극)
+  // 콘서트 - 발라드/R&B
   {
-    id: "m-1",
+    id: "c-ballad-1",
+    title: "브라운아이드소울",
+    category: "콘서트",
+    subcategory: "발라드/R&B",
+    agency: "브아솔컴퍼니",
+    artist: "브라운아이드소울",
+    site: "멜론티켓",
+    siteUrl: "https://ticket.melon.com/performance/index.htm?prodId=211978",
+    openAt: "2025-12-08T20:00:00",
+    showAt: "2026-01-28T18:00:00",
+    note: "",
+  },
+  {
+    id: "c-ballad-2",
+    title: "성시경 콘서트",
+    category: "콘서트",
+    subcategory: "발라드/R&B",
+    agency: "성시경컴퍼니",
+    artist: "성시경",
+    site: "인터파크 티켓",
+    siteUrl: "https://tickets.interpark.com/goods/25016342",
+    openAt: "2025-12-09T20:00:00",
+    showAt: "2026-01-22T18:00:00",
+    note: "",
+  },
+  {
+    id: "c-ballad-3",
+    title: "정승환 콘서트",
+    category: "콘서트",
+    subcategory: "발라드/R&B",
+    agency: "안테나",
+    artist: "정승환",
+    site: "인터파크 티켓",
+    siteUrl: "https://tickets.interpark.com/goods/25013763",
+    openAt: "2025-12-13T20:00:00",
+    showAt: "2026-02-02T18:00:00",
+    note: "",
+  },
+  {
+    id: "c-ballad-4",
+    title: "케이윌 콘서트",
+    category: "콘서트",
+    subcategory: "발라드/R&B",
+    agency: "스타쉽",
+    artist: "케이윌",
+    site: "멜론티켓",
+    siteUrl: "https://ticket.melon.com/performance/index.htm?prodId=212100",
+    openAt: "2025-12-14T20:00:00",
+    showAt: "2026-02-08T18:00:00",
+    note: "",
+  },
+
+  // 콘서트 - 힙합/EDM, 페스티벌 (예시 보충)
+  {
+    id: "c-hiphop-1",
+    title: "힙합 페스티벌 : Night Groove",
+    category: "콘서트",
+    subcategory: "힙합/EDM",
+    agency: "HipHop Live",
+    artist: "다수 힙합 아티스트",
+    site: "인터파크 티켓",
+    siteUrl: "https://tickets.interpark.com/",
+    openAt: "2025-12-17T18:00:00",
+    showAt: "2026-02-16T18:00:00",
+    note: "임의 예시 데이터",
+  },
+  {
+    id: "c-festival-1",
+    title: "겨울 페스티벌 2026",
+    category: "콘서트",
+    subcategory: "페스티벌",
+    agency: "Festival Co",
+    artist: "Various",
+    site: "예스24 티켓",
+    siteUrl: "https://ticket.yes24.com/",
+    openAt: "2025-12-18T18:00:00",
+    showAt: "2026-02-24T18:00:00",
+    note: "임의 예시 데이터",
+  },
+
+  // 콘서트 - 트로트
+  {
+    id: "c-trot-1",
+    title: "임영웅 전국투어",
+    category: "콘서트",
+    subcategory: "트로트",
+    agency: "물고기뮤직",
+    artist: "임영웅",
+    site: "인터파크 티켓",
+    siteUrl: "https://tickets.interpark.com/goods/25017491",
+    openAt: "2025-12-07T20:00:00",
+    showAt: "2026-01-30T18:00:00",
+    note: "",
+  },
+  {
+    id: "c-trot-2",
+    title: "이찬원 콘서트",
+    category: "콘서트",
+    subcategory: "트로트",
+    agency: "이찬원컴퍼니",
+    artist: "이찬원",
+    site: "예스24 티켓",
+    siteUrl: "https://ticket.yes24.com/Perf/56347?Gcode=009_217_001",
+    openAt: "2025-12-10T20:00:00",
+    showAt: "2026-02-14T18:00:00",
+    note: "",
+  },
+  {
+    id: "c-trot-3",
+    title: "진성 콘서트",
+    category: "콘서트",
+    subcategory: "트로트",
+    agency: "진성컴퍼니",
+    artist: "진성",
+    site: "예스24 티켓",
+    siteUrl: "https://ticket.yes24.com/Perf/56323?Gcode=009_307",
+    openAt: "2025-12-11T20:00:00",
+    showAt: "2026-02-18T18:00:00",
+    note: "",
+  },
+  {
+    id: "c-trot-4",
+    title: "영탁 콘서트",
+    category: "콘서트",
+    subcategory: "트로트",
+    agency: "영탁컴퍼니",
+    artist: "영탁",
+    site: "인터파크 티켓",
+    siteUrl: "https://tickets.interpark.com/goods/25016692",
+    openAt: "2025-12-12T20:00:00",
+    showAt: "2026-02-22T18:00:00",
+    note: "",
+  },
+
+  // 콘서트 - 인디/록
+  {
+    id: "c-indie-1",
+    title: "옥상달빛 콘서트",
+    category: "콘서트",
+    subcategory: "인디/록",
+    agency: "옥상달빛컴퍼니",
+    artist: "옥상달빛",
+    site: "멜론티켓",
+    siteUrl: "https://ticket.melon.com/performance/index.htm?prodId=212406",
+    openAt: "2025-12-09T12:00:00",
+    showAt: "2026-01-18T18:00:00",
+    note: "",
+  },
+  {
+    id: "c-indie-2",
+    title: "네미시스 콘서트",
+    category: "콘서트",
+    subcategory: "인디/록",
+    agency: "네미시스컴퍼니",
+    artist: "네미시스",
+    site: "인터파크 티켓",
+    siteUrl: "https://tickets.interpark.com/goods/25016638",
+    openAt: "2025-12-10T12:00:00",
+    showAt: "2026-01-25T18:00:00",
+    note: "",
+  },
+
+  // 콘서트 - 내한
+  {
+    id: "c-visit-1",
+    title: "마츠다 세이코 INSPIRE Concert Series#7",
+    category: "콘서트",
+    subcategory: "내한",
+    agency: "글로벌",
+    artist: "마츠다 세이코",
+    site: "인터파크 티켓",
+    siteUrl: "https://tickets.interpark.com/goods/25015804",
+    openAt: "2025-12-20T20:00:00",
+    showAt: "2026-03-18T18:00:00",
+    note: "",
+  },
+  {
+    id: "c-visit-2",
+    title: "호시노 겐 내한 공연",
+    category: "콘서트",
+    subcategory: "내한",
+    agency: "글로벌",
+    artist: "호시노 겐",
+    site: "멜론티켓",
+    siteUrl: "https://ticket.melon.com/performance/index.htm?prodId=212412",
+    openAt: "2025-12-21T20:00:00",
+    showAt: "2026-03-20T18:00:00",
+    note: "",
+  },
+  {
+    id: "c-visit-3",
+    title: "tuki 내한",
+    category: "콘서트",
+    subcategory: "내한",
+    agency: "글로벌",
+    artist: "tuki",
+    site: "예스24 티켓",
+    siteUrl: "https://ticket.yes24.com/Perf/55989?Gcode=009_300",
+    openAt: "2025-12-22T20:00:00",
+    showAt: "2026-03-22T18:00:00",
+    note: "",
+  },
+
+  // 콘서트 - 그 외 장르
+  {
+    id: "c-etc-1",
+    title: "스페셜 콘서트 (그 외 장르)",
+    category: "콘서트",
+    subcategory: "그 외 장르",
+    agency: "Special Co",
+    artist: "Special Lineup",
+    site: "인터파크 티켓",
+    siteUrl: "https://tickets.interpark.com/goods/25015804",
+    openAt: "2025-12-23T20:00:00",
+    showAt: "2026-03-28T18:00:00",
+    note: "",
+  },
+
+  // 뮤지컬/연극 - 뮤지컬
+  {
+    id: "m-mus-1",
+    title: "뮤지컬 〈비틀쥬스〉",
+    category: "뮤지컬/연극",
+    subcategory: "뮤지컬",
+    agency: "비틀쥬스 제작사",
+    artist: "전 캐스트",
+    site: "인터파크 티켓",
+    siteUrl: "https://tickets.interpark.com/goods/L0000127",
+    openAt: "2025-12-05T10:00:00",
+    showAt: "2026-01-25T19:30:00",
+    note: "",
+  },
+  {
+    id: "m-mus-2",
     title: "뮤지컬 〈한복 입은 남자〉",
     category: "뮤지컬/연극",
     subcategory: "뮤지컬",
     agency: "인터파크 뮤지컬",
     artist: "전 캐스트",
-    site: "인터파크 티켓",
-    siteUrl: "https://tickets.interpark.com/contents/notice/detail/11949",
-    openAt: "2025-12-05T10:00:00",
-    showAt: "2026-01-05T19:30:00",
-    note: "",
-  },
-  {
-    id: "m-2",
-    title: "뮤지컬 〈킹키부츠〉",
-    category: "뮤지컬/연극",
-    subcategory: "뮤지컬",
-    agency: "킹키부츠 제작사",
-    artist: "전 캐스트",
-    site: "인터파크 티켓",
-    siteUrl: "https://tickets.interpark.com/goods/25014553",
-    openAt: "2025-12-07T10:00:00",
-    showAt: "2026-01-20T19:30:00",
-    note: "",
-  },
-  {
-    id: "m-3",
-    title: "연극 〈라이프 오브 파이〉",
-    category: "뮤지컬/연극",
-    subcategory: "연극",
-    agency: "Life of Pi 제작사",
-    artist: "전 캐스트",
-    site: "티켓링크",
-    siteUrl: "https://www.ticketlink.co.kr/",
-    openAt: "2025-12-09T10:00:00",
-    showAt: "2026-02-10T19:30:00",
+    site: "멜론티켓",
+    siteUrl: "https://ticket.melon.com/performance/index.htm?prodId=211984",
+    openAt: "2025-12-06T10:00:00",
+    showAt: "2026-02-01T19:30:00",
     note: "",
   },
 
-  // 스포츠 (세부: 축구, 야구, E스포츠, 기타) - 구단 필터용 필드 추가
+  // 뮤지컬/연극 - 연극
   {
-    id: "s-1",
-    title: "축구 홈 개막전",
+    id: "m-play-1",
+    title: "연극 〈엘리펀트 송〉",
+    category: "뮤지컬/연극",
+    subcategory: "연극",
+    agency: "엘리펀트제작사",
+    artist: "전 캐스트",
+    site: "예스24 티켓",
+    siteUrl: "https://ticket.yes24.com/Perf/55851&Gcode=009_306",
+    openAt: "2025-12-07T10:00:00",
+    showAt: "2026-02-08T19:30:00",
+    note: "",
+  },
+  {
+    id: "m-play-2",
+    title: "연극 〈타지마할의 근위병〉",
+    category: "뮤지컬/연극",
+    subcategory: "연극",
+    agency: "타지마할 제작사",
+    artist: "전 캐스트",
+    site: "예스24 티켓",
+    siteUrl: "https://ticket.yes24.com/Perf/55481?Gcode=009_500",
+    openAt: "2025-12-08T10:00:00",
+    showAt: "2026-02-15T19:30:00",
+    note: "",
+  },
+  {
+    id: "m-play-3",
+    title: "로코 연극 <러브액츄얼리> 크리스마스 특별공연",
+    category: "뮤지컬/연극",
+    subcategory: "연극",
+    agency: "러브액츄얼리 제작사",
+    artist: "전 캐스트",
+    site: "멜론티켓",
+    siteUrl: "https://ticket.melon.com/performance/bridge.htm?brgId=100467",
+    openAt: "2025-12-09T10:00:00",
+    showAt: "2026-02-20T19:30:00",
+    note: "",
+  },
+
+  // 스포츠 (축구/야구/E스포츠)
+  {
+    id: "s-soccer-1",
+    title: "축구 K리그 홈 개막전",
     category: "스포츠",
     subcategory: "축구",
     sportClub: "FC서울",
     agency: "K리그",
     artist: "FC서울",
-    site: "티켓링크",
-    siteUrl: "https://www.ticketlink.co.kr/sports/137/63",
-    openAt: "2025-12-20T11:00:00",
+    site: "인터파크 스포츠",
+    siteUrl: "https://ticket.interpark.com/Contents/Sports/Bridge/Soccer",
+    openAt: "2025-12-15T11:00:00",
     showAt: "2026-03-02T14:00:00",
-    note: "축구 구단 예매 페이지",
+    note: "구단별 예매 페이지 연결",
   },
   {
-    id: "s-2",
+    id: "s-base-1",
     title: "야구 시즌 홈 개막전",
     category: "스포츠",
     subcategory: "야구",
-    sportClub: "KIA 타이거즈",
+    sportClub: "두산 베어스",
     agency: "KBO",
-    artist: "KIA 타이거즈",
-    site: "티켓링크",
-    siteUrl: "https://www.ticketlink.co.kr/sports/137/58",
-    openAt: "2026-02-20T11:00:00",
+    artist: "두산 베어스",
+    site: "인터파크 스포츠",
+    siteUrl: "https://ticket.interpark.com/Contents/Sports/Bridge/baseball",
+    openAt: "2026-02-25T11:00:00",
     showAt: "2026-03-30T18:30:00",
-    note: "야구 구단 예매 페이지",
+    note: "구단별 예매 페이지 연결",
   },
   {
-    id: "s-3",
-    title: "E스포츠 결승전",
+    id: "s-base-2",
+    title: "야구 시즌 홈 경기(티켓링크)",
+    category: "스포츠",
+    subcategory: "야구",
+    sportClub: "티켓링크-예시",
+    agency: "KBO",
+    artist: "KBO 구단",
+    site: "티켓링크",
+    siteUrl: "https://www.ticketlink.co.kr/sports/137/63",
+    openAt: "2026-02-26T11:00:00",
+    showAt: "2026-04-01T18:30:00",
+    note: "야구 구단 리스트 참고",
+  },
+  {
+    id: "s-es-1",
+    title: "LCK 시즌 결승",
     category: "스포츠",
     subcategory: "E스포츠",
-    sportClub: "LCK Finals",
-    agency: "E-스포츠 리그",
+    sportClub: "LCK",
+    agency: "라이엇",
     artist: "결승팀",
-    site: "예스24 티켓",
-    siteUrl: "https://ticket.yes24.com/",
-    openAt: "2026-01-05T18:00:00",
-    showAt: "2026-02-12T18:00:00",
-    note: "",
+    site: "인터파크 티켓",
+    siteUrl: "https://tickets.interpark.com/contents/bridge/25017551",
+    openAt: "2025-12-28T18:00:00",
+    showAt: "2026-01-15T18:00:00",
+    note: "레드불 PC방 테이크오버 포함",
   },
 
-  // 클래식/무용
+  // 클래식
   {
     id: "cl-1",
     title: "신년 클래식 갈라",
-    category: "클래식/무용",
+    category: "클래식",
     subcategory: "클래식",
     agency: "서울시향",
     artist: "서울시향",
@@ -208,89 +499,6 @@ const eventsData = [
     openAt: "2025-12-18T10:00:00",
     showAt: "2026-02-10T14:00:00",
     note: "전 연령 관람가",
-  },
-
-  // 팝업스토어 (아이돌/시즌/기타)
-  {
-    id: "p-1",
-    title: "팝업스토어 - 아이돌 A",
-    category: "팝업스토어",
-    subcategory: "아이돌",
-    agency: "아이돌팝업",
-    artist: "아이돌 A",
-    site: "네이버 예약",
-    siteUrl:
-      "https://booking.naver.com/booking/12/bizes/581926/items/7191828?startDateTime=2025-12-05T00%3A00%3A00%2B09%3A00",
-    openAt: "2025-12-05T10:00:00",
-    showAt: "2025-12-20T20:00:00",
-    note: "아이돌 팝업스토어 예시",
-  },
-  {
-    id: "p-2",
-    title: "팝업스토어 - 아이돌 B (NMIXX EP.1)",
-    category: "팝업스토어",
-    subcategory: "아이돌",
-    agency: "아이돌팝업",
-    artist: "NMIXX",
-    site: "네이버 예약",
-    siteUrl:
-      "https://booking.naver.com/booking/12/bizes/1091186/items/7213860?startDateTime=2025-12-05T00%3A00%3A00%2B09%3A00&utm_campaign=nmixx_popup_episode1_zerofrontier_naver_booking&utm_medium=sns&utm_source=twitter",
-    openAt: "2025-12-05T10:00:00",
-    showAt: "2025-12-25T20:00:00",
-    note: "NMIXX 팝업스토어",
-  },
-  {
-    id: "p-3",
-    title: "팝업스토어 - 시즌 에디션",
-    category: "팝업스토어",
-    subcategory: "시즌",
-    agency: "Seasonal Pop",
-    artist: "Seasonal Line",
-    site: "네이버 예약",
-    siteUrl:
-      "https://m.booking.naver.com/booking/12/bizes/1529548/items/7216347?area=bmp&startDateTime=2025-12-05T00%3A00%3A00%2B09%3A00",
-    openAt: "2025-12-05T10:00:00",
-    showAt: "2026-01-10T20:00:00",
-    note: "시즌 한정 팝업",
-  },
-  {
-    id: "p-4",
-    title: "팝업스토어 - 기타 1",
-    category: "팝업스토어",
-    subcategory: "기타",
-    agency: "기타팝업",
-    artist: "기타 브랜드 1",
-    site: "네이버 예약",
-    siteUrl: "https://m.booking.naver.com/booking/6/bizes/1510139/items/7107356?area=bmp&startDate=2025-12-05",
-    openAt: "2025-12-05T10:00:00",
-    showAt: "2026-01-05T20:00:00",
-    note: "",
-  },
-  {
-    id: "p-5",
-    title: "팝업스토어 - 기타 2",
-    category: "팝업스토어",
-    subcategory: "기타",
-    agency: "기타팝업",
-    artist: "기타 브랜드 2",
-    site: "네이버 예약",
-    siteUrl: "https://booking.naver.com/booking/13/bizes/1185210/items/7207891?startDate=2025-12-05",
-    openAt: "2025-12-05T10:00:00",
-    showAt: "2026-01-12T20:00:00",
-    note: "",
-  },
-  {
-    id: "p-6",
-    title: "팝업스토어 - 기타 3",
-    category: "팝업스토어",
-    subcategory: "기타",
-    agency: "기타팝업",
-    artist: "기타 브랜드 3",
-    site: "네이버 예약",
-    siteUrl: "https://m.booking.naver.com/booking/6/bizes/1543589/items/7227353",
-    openAt: "2025-12-05T10:00:00",
-    showAt: "2026-01-15T20:00:00",
-    note: "",
   },
 ];
 
@@ -318,7 +526,6 @@ const resetFiltersBtn = document.getElementById("reset-filters");
 const enableNotiBtn = document.getElementById("enable-noti");
 
 const navButtons = document.querySelectorAll(".nav-btn");
-const navPopupstoreBtn = document.getElementById("nav-popupstore");
 const calendarEl = document.getElementById("calendar");
 const currentMonthEl = document.getElementById("current-month");
 const prevMonthBtn = document.getElementById("prev-month");
@@ -333,13 +540,11 @@ const modalContentEl = document.getElementById("modal-content");
 // 세부 카테고리 정의
 const subcategoriesByCategory = {
   전체: ["전체"],
-  "공연 랭킹": ["전체", "주간"],
-  콘서트: ["전체", "아이돌", "발라드", "트로트", "인디", "내한", "기타"],
+  콘서트: ["전체", "WEEKLY RANKING", "아이돌", "발라드/R&B", "힙합/EDM", "페스티벌", "인디/록", "내한", "그 외 장르"],
   "뮤지컬/연극": ["전체", "뮤지컬", "연극"],
-  스포츠: ["전체", "축구", "야구", "E스포츠", "기타"],
-  "클래식/무용": ["전체", "클래식", "무용", "기타"],
+  스포츠: ["전체", "축구", "야구", "E스포츠"],
+  클래식: ["전체", "클래식"],
   "가족/어린이": ["전체", "패밀리", "어린이", "기타"],
-  팝업스토어: ["전체", "아이돌", "시즌", "기타"],
 };
 
 // === 유틸 함수 ===
@@ -366,6 +571,36 @@ function isSameDay(a, b) {
     a.getMonth() === b.getMonth() &&
     a.getDate() === b.getDate()
   );
+}
+
+function addHours(date, hours) {
+  const d = new Date(date);
+  d.setHours(d.getHours() + hours);
+  return d;
+}
+
+function buildGoogleCalendarLink(ev) {
+  if (!ev.showAt) return "#";
+  const start = new Date(ev.showAt);
+  const end = addHours(start, 2);
+  const fmt = (dt) =>
+    dt
+      .toISOString()
+      .replace(/[-:]/g, "")
+      .replace(/\.\d{3}Z$/, "Z");
+  const params = new URLSearchParams({
+    action: "TEMPLATE",
+    text: ev.title,
+    dates: `${fmt(start)}/${fmt(end)}`,
+    details: `${ev.note || ""}\n예매: ${ev.siteUrl || ""}`,
+    location: ev.site || "",
+  });
+  return `https://calendar.google.com/calendar/u/0/r/eventedit?${params.toString()}`;
+}
+
+function buildDeviceCalendarLink(ev) {
+  // 단순 안내용: 실제 캘린더 스킴 대신 텍스트 페이지로 연결
+  return ev.siteUrl || "#";
 }
 
 // === 로컬스토리지 ===
@@ -505,6 +740,7 @@ function renderCalendar() {
 
   const year = currentMonth.getFullYear();
   const month = currentMonth.getMonth();
+  currentMonthEl.textContent = `${year}년 ${month + 1}월`;
 
   const firstDayOfMonth = new Date(year, month, 1);
   const startDate = new Date(firstDayOfMonth);
@@ -538,12 +774,9 @@ function renderCalendar() {
     dotsWrap.className = "calendar-dots";
 
     const dateStr = formatDate(cellDate.toISOString());
-    const hasUpcoming = filtered.some(
-      (ev) => formatDate(ev.openAt) === dateStr
-    );
-    const hasMine = filtered.some(
-      (ev) => formatDate(ev.openAt) === dateStr && isInMyCalendar(ev.id)
-    );
+    const eventsOfDay = filtered.filter((ev) => formatDate(ev.openAt) === dateStr);
+    const hasUpcoming = eventsOfDay.length > 0;
+    const hasMine = eventsOfDay.some((ev) => isInMyCalendar(ev.id));
 
     if (hasUpcoming) {
       const dot = document.createElement("div");
@@ -559,6 +792,12 @@ function renderCalendar() {
 
     dayEl.appendChild(numSpan);
     dayEl.appendChild(dotsWrap);
+
+    if (eventsOfDay.length > 0) {
+      dayEl.style.cursor = "pointer";
+      dayEl.addEventListener("click", () => openDayEventsModal(eventsOfDay, dateStr));
+    }
+
     calendarEl.appendChild(dayEl);
   }
 }
@@ -597,7 +836,7 @@ function renderEventsList() {
 
     const title = document.createElement("div");
     title.className = "event-title";
-    title.textContent = ev.title;
+    title.textContent = `${ev.highlight ? ev.highlight + " " : ""}${ev.title}`;
 
     const meta = document.createElement("div");
     meta.className = "event-meta";
@@ -610,11 +849,16 @@ function renderEventsList() {
     cat.className = "tag category";
     cat.textContent = ev.category;
 
+    const sub = document.createElement("span");
+    sub.className = "tag category";
+    sub.textContent = ev.subcategory || "전체";
+
     const site = document.createElement("span");
     site.className = "tag site";
     site.textContent = ev.site;
 
     tags.appendChild(cat);
+    tags.appendChild(sub);
     tags.appendChild(site);
 
     main.appendChild(title);
@@ -671,9 +915,9 @@ function renderEventsList() {
 // === 모달 ===
 function openEventModal(ev) {
   modalContentEl.innerHTML = `
-    <h3>${ev.title}</h3>
+    <h3>${ev.highlight ? ev.highlight + " " : ""}${ev.title}</h3>
     <div class="meta">${ev.agency} · ${ev.artist}</div>
-    <p><strong>카테고리:</strong> ${ev.category}</p>
+    <p><strong>카테고리:</strong> ${ev.category}${ev.subcategory ? " / " + ev.subcategory : ""}</p>
     <p><strong>티켓 오픈:</strong> ${formatDateTime(ev.openAt)}</p>
     <p><strong>공연 일시:</strong> ${formatDateTime(ev.showAt)}</p>
     <p><strong>예매처:</strong> ${ev.site}</p>
@@ -682,9 +926,36 @@ function openEventModal(ev) {
         ? `<p style="margin-top:4px;"><strong>비고:</strong> ${ev.note}</p>`
         : ""
     }
-    <a class="link" href="${ev.siteUrl}" target="_blank" rel="noopener noreferrer">
-      예매 페이지 열기 ↗
-    </a>
+    <div style="margin-top:10px; display:flex; gap:8px; flex-wrap:wrap;">
+      <a class="link" href="${ev.siteUrl}" target="_blank" rel="noopener noreferrer">예매 페이지 열기 ↗</a>
+      <a class="link" href="${buildGoogleCalendarLink(ev)}" target="_blank" rel="noopener noreferrer">🗓 Google 캘린더(모의)</a>
+      <a class="link" href="${buildDeviceCalendarLink(ev)}" target="_blank" rel="noopener noreferrer">📱 휴대폰 캘린더(모의)</a>
+    </div>
+  `;
+  modalBackdrop.classList.add("show");
+}
+
+function openDayEventsModal(events, dateLabel) {
+  const items = events
+    .map(
+      (ev) => `
+        <div style="padding:8px 0; border-bottom:1px solid rgba(255,255,255,0.08);">
+          <div style="font-weight:600;">${ev.highlight ? ev.highlight + " " : ""}${ev.title}</div>
+          <div class="meta">${ev.agency} · ${ev.artist}</div>
+          <div style="font-size:12px; color:#a3a7c2;">티켓 오픈: ${formatDateTime(ev.openAt)}</div>
+          <div style="font-size:12px; color:#a3a7c2;">공연 일시: ${formatDateTime(ev.showAt)}</div>
+          <div style="margin-top:6px; display:flex; gap:6px; flex-wrap:wrap;">
+            <button class="outline-btn" onclick="window.open('${ev.siteUrl}','_blank')">예매 페이지 ↗</button>
+            <button class="outline-btn" onclick="window.open('${buildGoogleCalendarLink(ev)}','_blank')">🗓 캘린더(모의)</button>
+          </div>
+        </div>
+      `
+    )
+    .join("");
+
+  modalContentEl.innerHTML = `
+    <h3>${dateLabel} 오픈 일정</h3>
+    ${items}
   `;
   modalBackdrop.classList.add("show");
 }
@@ -790,24 +1061,6 @@ navButtons.forEach((btn) => {
     renderEventsList();
   });
 });
-
-if (navPopupstoreBtn) {
-  navPopupstoreBtn.addEventListener("click", () => {
-    // view는 전체로 유지, 카테고리만 팝업스토어로 바로 이동
-    navButtons.forEach((b) => b.classList.remove("active"));
-    currentView = "all";
-    currentCategory = "팝업스토어";
-    currentSubcategory = "전체";
-    // 카테고리 칩도 동기화
-    categoryChips.querySelectorAll(".chip").forEach((c) => c.classList.remove("active"));
-    const target = categoryChips.querySelector('[data-category="팝업스토어"]');
-    if (target) target.classList.add("active");
-    buildSubcategoryChips();
-    updateFilterVisibility();
-    renderCalendar();
-    renderEventsList();
-  });
-}
 
 enableNotiBtn.addEventListener("click", requestNotificationPermission);
 
