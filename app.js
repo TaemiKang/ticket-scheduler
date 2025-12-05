@@ -869,6 +869,31 @@ function updateFilterVisibility() {
 function renderCalendar() {
   calendarEl.innerHTML = "";
 
+  // 요일 표시 추가
+  const weekdays = ["일", "월", "화", "수", "목", "금", "토"];
+  const weekdayRow = document.createElement("div");
+  weekdayRow.className = "calendar-weekdays";
+  weekdayRow.style.display = "grid";
+  weekdayRow.style.gridTemplateColumns = "repeat(7, minmax(0, 1fr))";
+  weekdayRow.style.gap = "6px";
+  weekdayRow.style.marginBottom = "4px";
+  weekdayRow.style.position = "absolute";
+  weekdayRow.style.top = "-17px";
+  weekdayRow.style.left = "0";
+  weekdayRow.style.width = "100%";
+  weekdayRow.style.fontSize = "11px";
+  weekdayRow.style.color = "var(--text-muted)";
+  weekdayRow.style.pointerEvents = "none";
+  
+  weekdays.forEach(day => {
+    const dayEl = document.createElement("div");
+    dayEl.textContent = day;
+    dayEl.style.textAlign = "center";
+    weekdayRow.appendChild(dayEl);
+  });
+  
+  calendarEl.appendChild(weekdayRow);
+
   const year = currentMonth.getFullYear();
   const month = currentMonth.getMonth();
   currentMonthEl.textContent = `${year}년 ${month + 1}월`;
@@ -925,6 +950,16 @@ function renderCalendar() {
       eventItem.style.overflow = "hidden";
       eventItem.style.textOverflow = "ellipsis";
       eventItem.style.whiteSpace = "nowrap";
+
+      // 내 캘린더 아이콘 표시
+      const myItem = isInMyCalendar(ev.id) ? getMyCalendarItem(ev.id) : null;
+      if (myItem && myItem.icon) {
+        const iconSpan = document.createElement("span");
+        iconSpan.textContent = myItem.icon;
+        iconSpan.style.fontSize = "10px";
+        iconSpan.style.flexShrink = "0";
+        eventItem.appendChild(iconSpan);
+      }
 
       // 예매처별 색상 점
       const siteDot = document.createElement("span");
