@@ -297,7 +297,7 @@ const eventsData = [
     agency: "글로벌",
     artist: "마츠다 세이코",
     site: "인터파크 티켓",
-    siteUrl: "https://tickets.interpark.com/goods/25015804",
+    siteUrl: "https://tickets.interpark.com/goods/25017120",
     openAt: "2025-12-20T20:00:00",
     showAt: "2026-03-18T18:00:00",
     note: "",
@@ -500,6 +500,86 @@ const eventsData = [
     showAt: "2026-02-10T14:00:00",
     note: "전 연령 관람가",
   },
+
+  // 팝업스토어
+  {
+    id: "popup-1",
+    title: "팝업스토어 아이돌 1",
+    category: "팝업스토어",
+    subcategory: "아이돌",
+    agency: "팝업스토어",
+    artist: "아이돌",
+    site: "네이버 예약",
+    siteUrl: "https://booking.naver.com/booking/12/bizes/581926/items/7191828?startDateTime=2025-12-05T00%3A00%3A00%2B09%3A00",
+    openAt: "2025-12-05T10:00:00",
+    showAt: "2025-12-05T10:00:00",
+    note: "",
+  },
+  {
+    id: "popup-2",
+    title: "팝업스토어 아이돌 2",
+    category: "팝업스토어",
+    subcategory: "아이돌",
+    agency: "팝업스토어",
+    artist: "아이돌",
+    site: "네이버 예약",
+    siteUrl: "https://booking.naver.com/booking/12/bizes/1091186/items/7213860?startDateTime=2025-12-05T00%3A00%3A00%2B09%3A00&utm_campaign=nmixx_popup_episode1_zerofrontier_naver_booking&utm_medium=sns&utm_source=twitter",
+    openAt: "2025-12-05T10:00:00",
+    showAt: "2025-12-05T10:00:00",
+    note: "",
+  },
+  {
+    id: "popup-3",
+    title: "팝업스토어 시즌",
+    category: "팝업스토어",
+    subcategory: "시즌",
+    agency: "팝업스토어",
+    artist: "시즌",
+    site: "네이버 예약",
+    siteUrl: "https://m.booking.naver.com/booking/12/bizes/1529548/items/7216347?area=bmp&startDateTime=2025-12-05T00%3A00%3A00%2B09%3A00",
+    openAt: "2025-12-05T10:00:00",
+    showAt: "2025-12-05T10:00:00",
+    note: "",
+  },
+  {
+    id: "popup-4",
+    title: "팝업스토어 기타 1",
+    category: "팝업스토어",
+    subcategory: "기타",
+    agency: "팝업스토어",
+    artist: "기타",
+    site: "네이버 예약",
+    siteUrl: "https://m.booking.naver.com/booking/6/bizes/1510139/items/7107356?area=bmp&startDate=2025-12-05",
+    openAt: "2025-12-05T10:00:00",
+    showAt: "2025-12-05T10:00:00",
+    note: "",
+  },
+  {
+    id: "popup-5",
+    title: "팝업스토어 기타 2",
+    category: "팝업스토어",
+    subcategory: "기타",
+    agency: "팝업스토어",
+    artist: "기타",
+    site: "네이버 예약",
+    siteUrl: "https://booking.naver.com/booking/13/bizes/1185210/items/7207891?startDate=2025-12-05",
+    openAt: "2025-12-05T10:00:00",
+    showAt: "2025-12-05T10:00:00",
+    note: "",
+  },
+  {
+    id: "popup-6",
+    title: "팝업스토어 기타 3",
+    category: "팝업스토어",
+    subcategory: "기타",
+    agency: "팝업스토어",
+    artist: "기타",
+    site: "네이버 예약",
+    siteUrl: "https://m.booking.naver.com/booking/6/bizes/1543589/items/7227353",
+    openAt: "2025-12-05T10:00:00",
+    showAt: "2025-12-05T10:00:00",
+    note: "",
+  },
 ];
 
 // === 상태 ===
@@ -509,6 +589,7 @@ let currentCategory = "전체";
 let currentSubcategory = "전체";
 let currentAgency = "all";
 let currentArtist = "all";
+let currentArtistSearch = "";
 let currentSoccerClub = "all";
 let currentBaseballClub = "all";
 let myCalendar = loadMyCalendar();
@@ -522,6 +603,7 @@ const sportsWrap = document.getElementById("sports-wrap");
 const soccerSelect = document.getElementById("soccer-select");
 const baseballSelect = document.getElementById("baseball-select");
 const artistSelect = document.getElementById("artist-select");
+const artistSearchInput = document.getElementById("artist-search");
 const resetFiltersBtn = document.getElementById("reset-filters");
 const enableNotiBtn = document.getElementById("enable-noti");
 
@@ -545,6 +627,7 @@ const subcategoriesByCategory = {
   스포츠: ["전체", "축구", "야구", "E스포츠"],
   클래식: ["전체", "클래식"],
   "가족/어린이": ["전체", "패밀리", "어린이", "기타"],
+  팝업스토어: ["전체", "아이돌", "시즌", "기타"],
 };
 
 // === 유틸 함수 ===
@@ -658,7 +741,12 @@ function applyFilters(data) {
         return false;
     }
 
-    if (currentArtist !== "all" && ev.artist !== currentArtist) return false;
+    // 아티스트 필터: 검색어가 있으면 검색어로 필터링, 없으면 드롭다운 선택값으로 필터링
+    if (currentArtistSearch.trim() !== "") {
+      if (!ev.artist || !ev.artist.toLowerCase().includes(currentArtistSearch.toLowerCase())) return false;
+    } else {
+      if (currentArtist !== "all" && ev.artist !== currentArtist) return false;
+    }
     if (currentView === "my" && !isInMyCalendar(ev.id)) return false;
     return true;
   });
@@ -1035,8 +1123,22 @@ baseballSelect.addEventListener("change", () => {
   renderEventsList();
 });
 
+artistSearchInput.addEventListener("input", (e) => {
+  currentArtistSearch = e.target.value;
+  if (currentArtistSearch.trim() !== "") {
+    currentArtist = "all"; // 검색어가 있으면 드롭다운 선택 해제
+    artistSelect.value = "all";
+  }
+  renderCalendar();
+  renderEventsList();
+});
+
 artistSelect.addEventListener("change", () => {
   currentArtist = artistSelect.value;
+  if (currentArtist !== "all") {
+    currentArtistSearch = ""; // 드롭다운 선택 시 검색어 초기화
+    artistSearchInput.value = "";
+  }
   renderCalendar();
   renderEventsList();
 });
@@ -1046,12 +1148,15 @@ resetFiltersBtn.addEventListener("click", () => {
   currentSubcategory = "전체";
   currentAgency = "all";
   currentArtist = "all";
+  currentArtistSearch = "";
   currentSoccerClub = "all";
   currentBaseballClub = "all";
   categoryChips.querySelectorAll(".chip").forEach((c) => c.classList.remove("active"));
   categoryChips.querySelector('[data-category="전체"]').classList.add("active");
   buildSubcategoryChips();
   updateFilterVisibility();
+  artistSearchInput.value = "";
+  artistSelect.value = "all";
   renderCalendar();
   renderEventsList();
 });
