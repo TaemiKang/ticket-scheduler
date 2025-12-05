@@ -1,10 +1,10 @@
 // === 실제 데이터 반영 (요청 기반) ===
 const eventsData = [
-  // 콘서트 - WEEKLY RANKING
+  // WEEKLY RANKING
   {
     id: "c-rank-1",
     title: "WEEKLY RANKING #1 - 임영웅",
-    category: "콘서트",
+    category: "WEEKLY RANKING",
     subcategory: "WEEKLY RANKING",
     agency: "물고기뮤직",
     artist: "임영웅",
@@ -18,7 +18,7 @@ const eventsData = [
   {
     id: "c-rank-2",
     title: "WEEKLY RANKING #2 - 데이식스(DAY6)",
-    category: "콘서트",
+    category: "WEEKLY RANKING",
     subcategory: "WEEKLY RANKING",
     agency: "JYP",
     artist: "데이식스(DAY6)",
@@ -32,7 +32,7 @@ const eventsData = [
   {
     id: "c-rank-3",
     title: "WEEKLY RANKING #3 - 엑소(EXO)",
-    category: "콘서트",
+    category: "WEEKLY RANKING",
     subcategory: "WEEKLY RANKING",
     agency: "SM",
     artist: "엑소(EXO)",
@@ -46,7 +46,7 @@ const eventsData = [
   {
     id: "c-rank-4",
     title: "WEEKLY RANKING #4 - 세븐틴 SEVENTEEN",
-    category: "콘서트",
+    category: "WEEKLY RANKING",
     subcategory: "WEEKLY RANKING",
     agency: "HYBE",
     artist: "세븐틴 SEVENTEEN",
@@ -639,12 +639,13 @@ const modalContentEl = document.getElementById("modal-content");
 // 세부 카테고리 정의
 const subcategoriesByCategory = {
   전체: ["전체"],
-  콘서트: ["전체", "WEEKLY RANKING", "아이돌", "발라드/R&B", "힙합/EDM", "페스티벌", "인디/록", "내한", "그 외 장르"],
+  콘서트: ["전체", "아이돌", "발라드/R&B", "힙합/EDM", "페스티벌", "인디/록", "내한", "그 외 장르"],
   "뮤지컬/연극": ["전체", "뮤지컬", "연극"],
   스포츠: ["전체", "축구", "야구", "E스포츠"],
   클래식: ["전체", "클래식"],
   "가족/어린이": ["전체", "패밀리", "어린이", "기타"],
   팝업스토어: ["전체", "아이돌", "시즌", "기타"],
+  "WEEKLY RANKING": ["전체"],
 };
 
 // === 유틸 함수 ===
@@ -881,8 +882,8 @@ function updateFilterVisibility() {
   soccerSelect.style.display = currentCategory === "스포츠" && currentSubcategory === "축구" ? "block" : "none";
   baseballSelect.style.display = currentCategory === "스포츠" && currentSubcategory === "야구" ? "block" : "none";
   
-  // WEEKLY RANKING 선택 시 랭킹 리스트 표시, 캘린더 숨김
-  const isRanking = currentSubcategory === "WEEKLY RANKING";
+  // WEEKLY RANKING 카테고리 선택 시 랭킹 리스트 표시, 캘린더 숨김
+  const isRanking = currentCategory === "WEEKLY RANKING";
   rankingSection.style.display = isRanking ? "block" : "none";
   calendarHeader.style.display = isRanking ? "none" : "flex";
   calendarEl.style.display = isRanking ? "none" : "grid";
@@ -1061,7 +1062,7 @@ function renderRankingList() {
   rankingListEl.innerHTML = "";
 
   const rankingEvents = eventsData
-    .filter(ev => ev.subcategory === "WEEKLY RANKING")
+    .filter(ev => ev.category === "WEEKLY RANKING")
     .sort((a, b) => {
       // 제목에서 순위 추출 (#1, #2, #3)
       const rankA = parseInt(a.title.match(/#(\d+)/)?.[1] || 999);
