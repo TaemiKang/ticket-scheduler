@@ -65,14 +65,14 @@ body {
 }
 
 .nav-btn {
-  border: none;
+  border: 1px solid transparent;
   background: transparent;
   color: var(--text-muted);
   padding: 8px 14px;
   border-radius: 999px;
   font-size: 13px;
   cursor: pointer;
-  transition: color var(--transition-fast), background var(--transition-fast), transform 0.08s;
+  transition: color var(--transition-fast), background var(--transition-fast), border-color var(--transition-fast), transform 0.08s;
 }
 
 .nav-btn:hover {
@@ -80,9 +80,16 @@ body {
   background: rgba(255, 255, 255, 0.05);
 }
 
-.nav-btn.active {
-  color: var(--text);
-  background: var(--accent-soft);
+.nav-btn.active[data-view="all"] {
+  color: var(--accent-strong);
+  background: rgba(108, 92, 231, 0.18);
+  border: 1px solid rgba(162, 155, 255, 0.7);
+}
+
+.nav-btn.active[data-view="my"] {
+  color: #81ecec;
+  background: rgba(0, 206, 201, 0.16);
+  border: 1px solid rgba(0, 206, 201, 0.7);
 }
 
 /* 레이아웃 */
